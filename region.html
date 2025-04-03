@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>[BOS] KMR Special Price Record - Chọn Đội</title>
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/region.css">
+</head>
+<body>
+    <div class="header">
+        <img class="logo" src="images/Logo.png" alt="Logo">
+        <h1>[BOS] KMR Special Price Record</h1>
+    </div>
+    
+    <div class="content">
+        <div class="region-title">
+            <h2 id="region-name">Chọn Đội</h2>
+            <p>Vui lòng chọn đội của bạn để tiếp tục</p>
+        </div>
+        
+        <div id="team-container" class="team-selection">
+            <!-- Teams will be loaded here -->
+            <div class="loading">
+                <div class="loading-spinner"></div>
+                <p>Đang tải danh sách đội...</p>
+            </div>
+        </div>
+        
+        <div class="back-button">
+            <button class="btn btn-back" id="backButton">Quay lại</button>
+        </div>
+    </div>
+    
+    <div class="footer">
+        <p>© 2025 Hệ thống quản lý giá đặc biệt được tạo bởi Team BOS.</p>
+    </div>
+
+    <!-- Tải các script cần thiết -->
+    <script src="js/config.js"></script>
+    <script src="js/api.js"></script>
+    <script src="js/region.js"></script>
+</body>
+</html>

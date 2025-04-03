@@ -11,7 +11,7 @@ const CONFIG = {
           name: 'SME Miền Bắc', 
           icon: '👥', 
           description: 'Đội SME khu vực Miền Bắc', 
-          emails: ['user1@kamereo.vn', 'admin@kamereo.vn'],
+          emails: ['thanhbinh.le@kamereo.vn', 'admin@kamereo.vn'],
           sheet_id: '1Yib-LG1VBlXruGJcZgEmjE3Qf9Ct37wZKeefTfbtKMk', // ID Google Sheet SME Miền Bắc
           sheet_name: 'Sheet1' // Tên tab sheet trong Google Sheet
         },
@@ -20,7 +20,7 @@ const CONFIG = {
           name: 'KA Miền Bắc', 
           icon: '🏢', 
           description: 'Đội KA khu vực Miền Bắc', 
-          emails: ['user2@kamereo.vn', 'ka.hanoi@kamereo.vn'],
+          emails: ['thanhbinh.le@kamereo.vn', 'hung.tran@kamereo.vn', 'ka.hanoi@kamereo.vn'],
           sheet_id: '1nRYjW0X5NWB5F-XmvMJsmQ-8mgr0UU8gm4ZGUYb5nSU', // ID Google Sheet KA Miền Bắc
           sheet_name: 'Sheet1'
         },
@@ -43,7 +43,7 @@ const CONFIG = {
           name: 'SME Miền Nam', 
           icon: '👥', 
           description: 'Đội SME khu vực Miền Nam', 
-          emails: ['user4@kamereo.vn', 'sme.hcm@kamereo.vn'],
+          emails: ['kien.le@kamereo.vn', 'sme.hcm@kamereo.vn'],
           sheet_id: '1XkHZ_0PBzBLL-rhW5Ldb5YkxRfXm_WJKQrRYCgd7W5I', // ID Google Sheet SME Miền Nam
           sheet_name: 'Sheet1'
         },
@@ -72,7 +72,7 @@ const CONFIG = {
 
   // Danh sách admin có quyền truy cập mọi team
   // Thêm email của bạn vào đây để có quyền admin nếu cần
-  ADMINS: ['viet.truong@kamereo.vn', 'dat.pham@kamereo.vn', 'admin@kamereo.vn', 'your.email@kamereo.vn'],
+  ADMINS: ['viet.truong@kamereo.vn', 'dat.pham@kamereo.vn', 'admin@kamereo.vn', 'khanh.le@kamereo.vn'],
 
   // Thời gian phiên làm việc (giờ)
   SESSION_DURATION: 8,

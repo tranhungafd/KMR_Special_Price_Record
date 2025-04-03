@@ -47,7 +47,7 @@
     </div>
 
     <!-- Main content section -->
-    <div class="content">
+        
         <div class="nav-tabs">
             <div class="nav-tab active" data-section="input">
                 <i class="fas fa-edit tab-icon"></i> Nhập liệu
@@ -56,10 +56,23 @@
                 <i class="fas fa-question-circle tab-icon"></i> Trợ giúp
             </div>
         </div>
-        
         <!-- Tab nhập liệu -->
         <div id="input-section" class="nav-content active">
             <div id="form-container">
+                <div class="info-box">
+                    <div class="info-box-header">
+                        <i class="fas fa-info-circle"></i>
+                        <strong>Thông tin tự động:</strong>
+                    </div>
+                    <p>Email người gửi và thời gian gửi sẽ được tự động ghi lại khi bạn gửi dữ liệu.</p>
+                    <div class="sheet-info-row">
+                        <span>Dữ liệu sẽ được đẩy lên:</span>
+                        <a href="#" id="sheet-link-view" target="_blank" class="sheet-link">
+                            <i class="fas fa-table"></i> 
+                            <span id="sheet-name-display">SpecialPrices - Google Sheets</span>
+                        </a>
+                    </div>
+                </div>
                 <div class="form-row">
                     <div class="form-group">
                         <label>Loại Giá:<span class="required-mark">*</span></label>
@@ -82,21 +95,6 @@
                             <label class="date-label" for="endDate">Đến ngày:</label>
                             <input type="date" id="endDate" class="date-input" required>
                         </div>
-                    </div>
-                </div>
-                
-                <div class="info-box">
-                    <div class="info-box-header">
-                        <i class="fas fa-info-circle"></i>
-                        <strong>Thông tin tự động:</strong>
-                    </div>
-                    <p>Email người gửi và thời gian gửi sẽ được tự động ghi lại khi bạn gửi dữ liệu.</p>
-                    <div class="sheet-info-row">
-                        <span>Dữ liệu sẽ được đẩy lên:</span>
-                        <a href="#" id="sheet-link-view" target="_blank" class="sheet-link">
-                            <i class="fas fa-table"></i> 
-                            <span id="sheet-name-display">SpecialPrices - Google Sheets</span>
-                        </a>
                     </div>
                 </div>
 

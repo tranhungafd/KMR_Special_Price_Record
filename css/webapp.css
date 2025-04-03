@@ -292,7 +292,8 @@ body {
 /* Info box improved */
 .info-box {
     background-color: #f8fafc;
-    border-left: 4px solid #94a3b8;
+    /*border-left: 4px solid #94a3b8;*/
+    border-left: 4px solid #f03749;
     padding: 15px;
     margin: 20px 0;
     border-radius: 0 8px 8px 0;
@@ -304,7 +305,7 @@ body {
     gap: 8px;
     margin-bottom: 10px;
     font-size: 16px;
-    color: #334155;
+    color: #de3d3d;
 }
 
 .sheet-info-row {
@@ -711,6 +712,30 @@ textarea:focus {
 
 .btn-restore:hover {
     background-color: #bee3f8;
+}
+/* CSS cho thông báo tự động */
+.info-alert {
+    background-color: #f0f9ff;
+    border-left: 4px solid #3b82f6;
+    margin: 0 0 20px 0;
+    padding: 15px;
+    display: flex;
+    align-items: center;
+    border-radius: 8px;
+}
+
+.info-alert-icon {
+    font-size: 24px;
+    color: #3b82f6;
+    margin-right: 15px;
+}
+
+.info-alert-content {
+    color: #334155;
+}
+
+.info-alert strong {
+    color: #1e40af;
 }
 
 /* Responsive adjustments */

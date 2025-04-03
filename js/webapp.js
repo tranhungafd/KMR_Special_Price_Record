@@ -377,6 +377,12 @@ const WebAppManager = {
         const tomorrow = new Date();
         tomorrow.setDate(tomorrow.getDate() + 1);
         
+        // Tính ngày cuối cùng của tháng hiện tại
+        const currentDate = new Date();
+        // Đặt ngày là 1 của tháng tiếp theo sau đó lùi lại 1 ngày = ngày cuối cùng của tháng hiện tại
+        const lastDayOfMonth = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 0);
+        
+        // Giới hạn không được chọn quá 3 tháng từ hiện tại
         const threeMonthsLater = new Date();
         threeMonthsLater.setMonth(threeMonthsLater.getMonth() + 3);
         
@@ -401,8 +407,8 @@ const WebAppManager = {
         if (endDateInput) {
             endDateInput.min = formatDate(tomorrow);
             endDateInput.max = formatDate(threeMonthsLater);
-            endDateInput.value = formatDate(threeMonthsLater);
-            this.data.form.endDate = formatDate(threeMonthsLater);
+            endDateInput.value = formatDate(lastDayOfMonth);
+            this.data.form.endDate = formatDate(lastDayOfMonth);
         }
     },
     
@@ -578,6 +584,10 @@ const WebAppManager = {
         if (!text) return [];
         
         const buyers = [];
+        const uniqueBuyerIds = new Set(); // Để kiểm tra ID trùng lặp
+        const uniqueCustomerNames = new Set(); // Để kiểm tra tên trùng lặp
+        const duplicateBuyerIds = []; // Lưu các ID trùng lặp
+        const duplicateCustomerNames = []; // Lưu các tên trùng lặp
         
         // Tách thành các dòng
         const lines = text.split('\n');
@@ -591,12 +601,38 @@ const WebAppManager = {
                 const buyerId = parts[0].trim();
                 const customerName = parts.slice(1).join(' ').trim();
                 
+                // Kiểm tra ID trùng lặp
+                if (uniqueBuyerIds.has(buyerId)) {
+                    duplicateBuyerIds.push(buyerId);
+                } else {
+                    uniqueBuyerIds.add(buyerId);
+                }
+                
+                // Kiểm tra tên trùng lặp
+                if (uniqueCustomerNames.has(customerName)) {
+                    duplicateCustomerNames.push(customerName);
+                } else {
+                    uniqueCustomerNames.add(customerName);
+                }
+                
                 // Thêm vào mảng buyers
                 buyers.push({
                     buyerId: buyerId,
                     customerName: customerName
                 });
             }
+        }
+        
+        // Hiển thị lỗi cụ thể nếu có ID trùng lặp
+        if (duplicateBuyerIds.length > 0) {
+            this.showResultMessage(`Buyer ID bị trùng lặp: ${duplicateBuyerIds.join(', ')}. Vui lòng kiểm tra lại danh sách khách hàng.`, 'error');
+            return [];
+        }
+        
+        // Hiển thị lỗi cụ thể nếu có tên trùng lặp
+        if (duplicateCustomerNames.length > 0) {
+            this.showResultMessage(`Tên khách hàng bị trùng lặp: ${duplicateCustomerNames.join(', ')}. Vui lòng kiểm tra lại danh sách khách hàng.`, 'error');
+            return [];
         }
         
         return buyers;
@@ -747,14 +783,8 @@ const WebAppManager = {
         const products = this.parseSkuData();
         
         // Kiểm tra dữ liệu đã phân tích
-        // Lưu ý: parseSKUData có thể trả về mảng rỗng nếu có lỗi (trùng SKU hoặc giá quá thấp)
-        if (buyers.length === 0) {
-            this.showResultMessage('Không thể phân tích dữ liệu khách hàng. Vui lòng kiểm tra định dạng nhập liệu.', 'error');
-            return;
-        }
-        
-        if (products.length === 0) {
-            // Thông báo lỗi đã được hiển thị trong hàm parseSkuData
+        // Không hiển thị thông báo lỗi ở đây vì đã có thông báo chi tiết từ các hàm parse
+        if (buyers.length === 0 || products.length === 0) {
             return;
         }
         

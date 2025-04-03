@@ -8,27 +8,27 @@ const CONFIG = {
       teams: [
         { 
           id: 'sme_hn', 
-          name: 'SME Miền Bắc', 
+          name: 'SME khu vực Miền Bắc', 
           icon: '👥', 
-          description: 'Đội SME khu vực Miền Bắc', 
+          //description: 'Đội SME khu vực Miền Bắc', 
           emails: ['thanhbinh.le@kamereo.vn', 'admin@kamereo.vn'],
           sheet_id: '1Yib-LG1VBlXruGJcZgEmjE3Qf9Ct37wZKeefTfbtKMk', // ID Google Sheet SME Miền Bắc
           sheet_name: 'Sheet1' // Tên tab sheet trong Google Sheet
         },
         { 
           id: 'ka_hn', 
-          name: 'KA Miền Bắc', 
+          name: 'KA khu vực Miền Bắc', 
           icon: '🏢', 
-          description: 'Đội KA khu vực Miền Bắc', 
+          //description: 'Đội KA khu vực Miền Bắc', 
           emails: ['thanhbinh.le@kamereo.vn', 'hung.tran@kamereo.vn', 'ka.hanoi@kamereo.vn'],
           sheet_id: '1nRYjW0X5NWB5F-XmvMJsmQ-8mgr0UU8gm4ZGUYb5nSU', // ID Google Sheet KA Miền Bắc
           sheet_name: 'Sheet1'
         },
         { 
           id: 'mt_hn', 
-          name: 'MT Miền Bắc', 
+          name: 'MT khu vực Miền Bắc', 
           icon: '🛒', 
-          description: 'Đội MT khu vực Miền Bắc', 
+          //description: 'Đội MT khu vực Miền Bắc', 
           emails: ['user3@kamereo.vn', 'mt.hanoi@kamereo.vn'],
           sheet_id: '1YaI4aeh8mJ5i1g7fM2JJUSezVDISXAYFbQPH5NEbSUo', // ID Google Sheet MT Miền Bắc
           sheet_name: 'Sheet1'
@@ -40,18 +40,18 @@ const CONFIG = {
       teams: [
         { 
           id: 'sme_hcm', 
-          name: 'SME Miền Nam', 
+          name: 'SME khu vực Miền Nam', 
           icon: '👥', 
-          description: 'Đội SME khu vực Miền Nam', 
+          //description: 'Đội SME khu vực Miền Nam', 
           emails: ['kien.le@kamereo.vn', 'sme.hcm@kamereo.vn'],
           sheet_id: '1XkHZ_0PBzBLL-rhW5Ldb5YkxRfXm_WJKQrRYCgd7W5I', // ID Google Sheet SME Miền Nam
           sheet_name: 'Sheet1'
         },
         { 
           id: 'ka_hcm', 
-          name: 'KA Miền Nam', 
+          name: 'KA khu vực Miền Nam', 
           icon: '🏢', 
-          description: 'Đội KA khu vực Miền Nam', 
+          //description: 'Đội KA khu vực Miền Nam', 
           // Thêm email của bạn vào đây nếu cần
           emails: ['user5@kamereo.vn', 'ka.hcm@kamereo.vn', 'your.email@kamereo.vn'],
           sheet_id: '1UIxh6YeaRgU85pa21nhpe15bUBtTywn5LoK8tafbSJ4', // ID Google Sheet KA Miền Nam
@@ -59,9 +59,9 @@ const CONFIG = {
         },
         { 
           id: 'mt_hcm', 
-          name: 'MT Miền Nam', 
+          name: 'MT khu vực Miền Nam', 
           icon: '🛒', 
-          description: 'Đội MT khu vực Miền Nam', 
+          //description: 'Đội MT khu vực Miền Nam', 
           emails: ['user6@kamereo.vn', 'mt.hcm@kamereo.vn'],
           sheet_id: '1-6pZBacYy_OPhnKE7hMEnHxdXqcXLIkn_H7jdEDZIz0', // ID Google Sheet MT Miền Nam
           sheet_name: 'Sheet1'

@@ -15,7 +15,7 @@ const RegionManager = {
       }
       
       // Thiết lập sự kiện nút quay lại
-      const backBtn = document.querySelector('.back-btn');
+      const backBtn = document.getElementById('backButton');
       if (backBtn) {
         backBtn.addEventListener('click', () => this.goBack());
       }

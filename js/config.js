@@ -70,7 +70,7 @@ const CONFIG = {
           name: 'KA MT khu vực Miền Nam', 
           icon: '🛒', 
           description: '',
-          emails: ['kien.le@kamereo.vn', 'ducphong.nguyen@kamereo.vn', 'tri.vo@kamereo.vn', 'cuong.huynh@kamereo.vn'],
+          emails: ['kien.le@kamereo.vn', 'ducphong.nguyen@kamereo.vn'],
           sheet_id: '1UIxh6YeaRgU85pa21nhpe15bUBtTywn5LoK8tafbSJ4',
           sheet_name: 'Sheet1'
         },

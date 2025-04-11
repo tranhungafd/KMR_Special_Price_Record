@@ -646,12 +646,12 @@ const WebAppManager = {
         const lines = text.split('\n');
         let isValid = true;
         
-        // Kiểm tra ít nhất 3 cột
+        // Kiểm tra ít nhất 2 cột
         for (const line of lines) {
             if (!line.trim()) continue;
             
             const parts = line.trim().split(/\t|\s{2,}/);
-            if (parts.length < 3) {
+            if (parts.length < 2) {
                 isValid = false;
                 break;
             }
@@ -659,7 +659,7 @@ const WebAppManager = {
         
         // Báo lỗi nếu định dạng không hợp lệ
         if (!isValid) {
-            this.showResultMessage('Định dạng dữ liệu SKU không hợp lệ. Cần 3 cột: SKU, SKU Name và Special Price.', 'error');
+            this.showResultMessage('Định dạng dữ liệu SKU không hợp lệ. Cần 2 cột: SKU và Special Price.', 'error');
         } else {
             this.showResultMessage('', 'clear'); // Xóa thông báo lỗi nếu có
         }
@@ -779,7 +779,7 @@ const WebAppManager = {
             // Tách thành các cột (tab hoặc nhiều spaces)
             const parts = line.trim().split(/\t|\s{2,}/);
             
-            if (parts.length >= 3) {
+            if (parts.length >= 2) {
                 const sku = parts[0].trim();
                 
                 // Lấy phần tử cuối cùng là giá
@@ -801,7 +801,7 @@ const WebAppManager = {
                 
                 // Kiểm tra giá tối thiểu
                 if (specialPrice < CONFIG.APP.MIN_PRICE) {
-                    lowPriceSkus.push(`${sku} (${specialPrice.toLocaleString('vi-VN')} VNĐ)`);
+                    lowPriceSkus.push(`${sku} (${specialPrice} VNĐ)`);
                 }
                 
                 // Thêm vào mảng products
@@ -1040,7 +1040,6 @@ const WebAppManager = {
                         <thead>
                             <tr>
                                 <th>SKU</th>
-                                <th>Tên sản phẩm</th>
                                 <th>Giá đặc biệt</th>
                             </tr>
                         </thead>
@@ -1609,7 +1608,7 @@ const WebAppManager = {
             if (skuTextArea) {
                 let skusText = '';
                 item.preview.products.forEach(product => {
-                    skusText += `${product.sku}\t${product.skuName}\t${product.specialPrice.toLocaleString('vi-VN')}\n`;
+                    skusText += `${product.sku}\t${product.skuName}\t${product.specialPrice}\n`;
                 });
                 skuTextArea.value = skusText.trim();
             }

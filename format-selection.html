@@ -166,7 +166,31 @@
                 flex-direction: column;
                 text-align: center;
             }
-            
+            .user-container {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.user-info {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.user-avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #e2e8f0;
+}
+
+.user-email {
+    font-size: 14px;
+    font-weight: 500;
+    color: #4a5568;
+}
             .logo {
                 margin-right: 0;
                 margin-bottom: 10px;
@@ -196,6 +220,17 @@
         <h1>[BOS] KMR Special Price Record</h1>
     </div>
     
+    <div class="user-container">
+        <div id="user-info" class="user-info"></div>
+        <div class="user-actions">
+            <button class="btn-icon btn-home" id="homeButton" title="Quay lại trang chủ">
+                <i class="fas fa-home"></i>
+            </button>
+            <button class="btn-icon btn-logout" id="logoutButton" title="Đăng xuất">
+                <i class="fas fa-sign-out-alt"></i>
+            </button>
+        </div>
+    </div>
     <div class="content">
         <div class="format-title">
             <h2>Chọn Định Dạng Đăng Ký</h2>

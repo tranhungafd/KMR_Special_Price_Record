@@ -10,7 +10,7 @@ const CONFIG = {
           id: 'sme_hn', 
           name: 'SME khu vực Miền Bắc', 
           icon: '👥', 
-          description: 'Quản lý khách hàng SME tại khu vực miền Bắc', 
+          description: '', 
           emails: ['user1@kamereo.vn', 'user2@kamereo.vn'], 
           sheet_id: '1Yib-LG1VBlXruGJcZgEmjE3Qf9Ct37wZKeefTfbtKMk',
           sheet_name: 'Sheet1'
@@ -19,7 +19,7 @@ const CONFIG = {
           id: 'ka_mt_hn', 
           name: 'KA MT khu vực Miền Bắc', 
           icon: '🛒', 
-          description: 'Quản lý khách hàng MT lớn tại miền Bắc',
+          description: '',
           emails: ['user3@kamereo.vn', 'user4@kamereo.vn'],
           sheet_id: '1nRYjW0X5NWB5F-XmvMJsmQ-8mgr0UU8gm4ZGUYb5nSU',
           sheet_name: 'Sheet1'
@@ -28,7 +28,7 @@ const CONFIG = {
           id: 'ka_fc_hn', 
           name: 'KA FC khu vực Miền Bắc', 
           icon: '🏢', 
-          description: 'Quản lý khách hàng FC tại miền Bắc',
+          description: '',
           emails: ['user5@kamereo.vn', 'user6@kamereo.vn'],
           sheet_id: '1YaI4aeh8mJ5i1g7fM2JJUSezVDISXAYFbQPH5NEbSUo',
           sheet_name: 'Sheet1'
@@ -37,7 +37,7 @@ const CONFIG = {
           id: 'ka_school_hn', 
           name: 'KA School Factory khu vực Miền Bắc', 
           icon: '🏫', 
-          description: 'Quản lý khách hàng trường học tại miền Bắc',
+          description: '',
           emails: ['user7@kamereo.vn', 'user8@kamereo.vn'],
           sheet_id: '1nRYjW0X5NWB5F-XmvMJsmQ-8mgr0UU8gm4ZGUYb5nSU',
           sheet_name: 'Sheet1'
@@ -46,7 +46,7 @@ const CONFIG = {
           id: 'ka_hotel_hn', 
           name: 'KA Hotel Convention khu vực Miền Bắc', 
           icon: '🏨', 
-          description: 'Quản lý khách hàng khách sạn tại miền Bắc',
+          description: '',
           emails: ['user9@kamereo.vn', 'user10@kamereo.vn'],
           sheet_id: '1YaI4aeh8mJ5i1g7fM2JJUSezVDISXAYFbQPH5NEbSUo',
           sheet_name: 'Sheet1'
@@ -60,7 +60,7 @@ const CONFIG = {
           id: 'sme_hcm', 
           name: 'SME khu vực Miền Nam', 
           icon: '👥', 
-          description: 'Quản lý khách hàng SME tại khu vực miền Nam',
+          description: '',
           emails: ['user11@kamereo.vn', 'user12@kamereo.vn'],
           sheet_id: '1XkHZ_0PBzBLL-rhW5Ldb5YkxRfXm_WJKQrRYCgd7W5I',
           sheet_name: 'Sheet1'
@@ -69,7 +69,7 @@ const CONFIG = {
           id: 'ka_mt_hcm', 
           name: 'KA MT khu vực Miền Nam', 
           icon: '🛒', 
-          description: 'Quản lý khách hàng MT lớn tại miền Nam',
+          description: '',
           emails: ['user13@kamereo.vn', 'user14@kamereo.vn'],
           sheet_id: '1UIxh6YeaRgU85pa21nhpe15bUBtTywn5LoK8tafbSJ4',
           sheet_name: 'Sheet1'
@@ -78,7 +78,7 @@ const CONFIG = {
           id: 'ka_fc_hcm', 
           name: 'KA FC khu vực Miền Nam', 
           icon: '🏢', 
-          description: 'Quản lý khách hàng FC tại miền Nam',
+          description: '',
           emails: ['user15@kamereo.vn', 'user16@kamereo.vn'],
           sheet_id: '1-6pZBacYy_OPhnKE7hMEnHxdXqcXLIkn_H7jdEDZIz0',
           sheet_name: 'Sheet1'
@@ -87,7 +87,7 @@ const CONFIG = {
           id: 'ka_school_hcm', 
           name: 'KA School Factory khu vực Miền Nam', 
           icon: '🏫', 
-          description: 'Quản lý khách hàng trường học tại miền Nam',
+          description: '',
           emails: ['user17@kamereo.vn', 'user18@kamereo.vn'],
           sheet_id: '1UIxh6YeaRgU85pa21nhpe15bUBtTywn5LoK8tafbSJ4',
           sheet_name: 'Sheet1'
@@ -96,7 +96,7 @@ const CONFIG = {
           id: 'ka_hotel_hcm', 
           name: 'KA Hotel Convention khu vực Miền Nam', 
           icon: '🏨', 
-          description: 'Quản lý khách hàng khách sạn tại miền Nam',
+          description: '',
           emails: ['user19@kamereo.vn', 'user20@kamereo.vn'],
           sheet_id: '1-6pZBacYy_OPhnKE7hMEnHxdXqcXLIkn_H7jdEDZIz0',
           sheet_name: 'Sheet1'
@@ -106,7 +106,7 @@ const CONFIG = {
   },
 
   // Danh sách admin có quyền truy cập mọi team - Giữ nguyên
-  ADMINS: ['viet.truong@kamereo.vn', 'dat.pham@kamereo.vn', 'admin@kamereo.vn', 'khanh.le@kamereo.vn'],
+  ADMINS: ['viet.truong@kamereo.vn', 'dat.pham@kamereo.vn', 'khanh.le@kamereo.vn'],
 
   // Thời gian phiên làm việc (giờ) - Giữ nguyên
   SESSION_DURATION: 8,

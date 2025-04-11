@@ -28,7 +28,7 @@ const FormatSelectionManager = {
         }
         
         // Hiển thị thông tin người dùng nếu có
-        this.displayUserInfo(email, teamId);
+        // this.displayUserInfo(email, teamId);
     },
     
     goBack: function() {

@@ -1,5 +1,5 @@
 // webapp.js - Xử lý logic cho trang nhập liệu
-
+    
 const WebAppManager = {
     // Biến lưu trữ dữ liệu
     data: {
@@ -9,6 +9,7 @@ const WebAppManager = {
         userName: null,
         userPicture: null,
         sheetInfo: null,  // Thông tin về sheet
+        requestNo: null,  // Request No để tham chiếu
         // Dữ liệu form nhập
         form: {
             priceType: '',
@@ -20,7 +21,7 @@ const WebAppManager = {
         // Dữ liệu preview
         preview: null
     },
-
+    
     // Khởi tạo
     init: function() {
         console.log('Khởi tạo WebAppManager');
@@ -57,7 +58,7 @@ const WebAppManager = {
         
         // Thiết lập sự kiện
         this.setupEventListeners();
-
+    
         // Tạo iframe ẩn để xử lý việc gửi form
         this.createHiddenIframe();
     },
@@ -85,8 +86,18 @@ const WebAppManager = {
                 return false;
             }
             
+            // Kiểm tra nếu người dùng có quyền truy cập vào team hiện tại
+            const currentTeamId = this.data.teamId || new URLSearchParams(window.location.search).get('team');
+            const hasAccess = session.isAdmin || session.userTeams.some(team => team.id === currentTeamId);
+            
+            if (!hasAccess) {
+                console.log('Người dùng không có quyền truy cập vào team này');
+                this.redirectToAuth();
+                return false;
+            }
+            
             // Cập nhật thông tin từ phiên
-            this.data.teamId = session.teamId;
+            this.data.teamId = currentTeamId;
             this.data.userEmail = session.email;
             this.data.isAdmin = session.isAdmin;
             this.data.userTeams = session.userTeams;
@@ -109,6 +120,22 @@ const WebAppManager = {
             localStorage.removeItem('kmr_auth_session');
             sessionStorage.removeItem('kmr_auth_session');
             this.redirectToAuth();
+            return false;
+        }
+    },
+    
+    // Kiểm tra phiên đơn giản, chỉ xác minh là phiên còn hạn
+    validateSessionSimple: function() {
+        const sessionData = localStorage.getItem('kmr_auth_session');
+        if (!sessionData) return false;
+        
+        try {
+            const session = JSON.parse(sessionData);
+            // Kiểm tra phiên hết hạn
+            if (new Date(session.expiryTime) < new Date()) return false;
+            // Kiểm tra quyền truy cập vào team hiện tại
+            return session.isAdmin || session.userTeams.some(team => team.id === this.data.teamId);
+        } catch (e) {
             return false;
         }
     },
@@ -184,7 +211,34 @@ const WebAppManager = {
     
     // Tải thông tin team
     loadTeamInfo: function() {
-        // Mô phỏng tải thông tin team
+        // Tìm thông tin team từ session trước
+        const sessionData = localStorage.getItem('kmr_auth_session');
+        if (sessionData) {
+            try {
+                const session = JSON.parse(sessionData);
+                const teamInfo = session.userTeams.find(team => team.id === this.data.teamId);
+                
+                if (teamInfo) {
+                    this.data.teamInfo = {
+                        id: teamInfo.id,
+                        name: teamInfo.name,
+                        region: teamInfo.region
+                    };
+                    
+                    // Hiển thị tên team
+                    const teamNameDisplay = document.getElementById('team-name-display');
+                    if (teamNameDisplay) {
+                        teamNameDisplay.textContent = teamInfo.name;
+                    }
+                    
+                    return;
+                }
+            } catch (e) {
+                console.error('Lỗi khi đọc thông tin team từ session:', e);
+            }
+        }
+        
+        // Nếu không tìm thấy trong session, tìm trong CONFIG
         for (const regionId in CONFIG.REGIONS) {
             const region = CONFIG.REGIONS[regionId];
             
@@ -214,6 +268,29 @@ const WebAppManager = {
     
     // Tải thông tin Google Sheet
     loadSheetInfo: function() {
+        // Lấy thông tin sheet từ session trước
+        const sessionData = localStorage.getItem('kmr_auth_session');
+        if (sessionData) {
+            try {
+                const session = JSON.parse(sessionData);
+                const teamInfo = session.userTeams.find(team => team.id === this.data.teamId);
+                
+                if (teamInfo && teamInfo.sheet_id) {
+                    this.data.sheetInfo = {
+                        sheet_id: teamInfo.sheet_id,
+                        sheet_name: teamInfo.sheet_name || 'Sheet1',
+                        sheet_url: `https://docs.google.com/spreadsheets/d/${teamInfo.sheet_id}/edit#gid=0`
+                    };
+                    
+                    // Cập nhật URL sheet trong giao diện
+                    this.updateSheetLinks();
+                    return;
+                }
+            } catch (e) {
+                console.error('Lỗi khi đọc thông tin sheet từ session:', e);
+            }
+        }
+
         // Tìm thông tin sheet từ cấu hình
         let sheetInfo = null;
         
@@ -298,6 +375,28 @@ const WebAppManager = {
             
             // Thêm team switcher nếu user có quyền truy cập nhiều team
             this.addTeamSwitcher();
+            
+            // Thêm liên kết Admin Tools nếu user là admin
+            this.addAdminToolsLink();
+        }
+    },
+    
+    // Thêm liên kết Admin Tools nếu user là admin
+    addAdminToolsLink: function() {
+        if (this.data.isAdmin) {
+            const userActions = document.querySelector('.user-actions');
+            if (userActions) {
+                const adminLink = document.createElement('button');
+                adminLink.className = 'btn-icon btn-admin';
+                adminLink.title = 'Admin Tools';
+                adminLink.innerHTML = '<i class="fas fa-tools"></i>';
+                
+                adminLink.addEventListener('click', () => {
+                    window.location.href = 'admin-tools.html';
+                });
+                
+                userActions.insertBefore(adminLink, userActions.firstChild);
+            }
         }
     },
     
@@ -480,9 +579,9 @@ const WebAppManager = {
         }
         
         // Nút quay lại
-        const backButton = document.getElementById('backButton');
-        if (backButton) {
-            backButton.addEventListener('click', () => this.redirectToHomePage());
+        const homeButton = document.getElementById('homeButton');
+        if (homeButton) {
+            homeButton.addEventListener('click', () => this.redirectToHomePage());
         }
         
         // Nút đăng xuất
@@ -521,24 +620,15 @@ const WebAppManager = {
         const text = buyerTextArea.value.trim();
         if (!text) return;
         
-        // Kiểm tra định dạng paste
+        // Kiểm tra định dạng paste - Giờ đây chỉ cần Buyer ID
         const lines = text.split('\n');
-        let isValid = true;
         
-        // Kiểm tra ít nhất 2 cột
-        for (const line of lines) {
-            if (!line.trim()) continue;
-            
-            const parts = line.trim().split(/\t|\s{2,}/);
-            if (parts.length < 2) {
-                isValid = false;
-                break;
-            }
-        }
+        // Không cần kiểm tra nhiều cột, chỉ cần mỗi dòng có ít nhất một Buyer ID
+        const isValid = lines.every(line => line.trim().length > 0);
         
         // Báo lỗi nếu định dạng không hợp lệ
         if (!isValid) {
-            this.showResultMessage('Định dạng dữ liệu khách hàng không hợp lệ. Cần 2 cột: Buyer ID và Tên khách hàng.', 'error');
+            this.showResultMessage('Định dạng dữ liệu khách hàng không hợp lệ. Mỗi dòng phải chứa một Buyer ID.', 'error');
         } else {
             this.showResultMessage('', 'clear'); // Xóa thông báo lỗi nếu có
         }
@@ -575,7 +665,7 @@ const WebAppManager = {
         }
     },
     
-    // Phân tích dữ liệu từ textarea Buyer
+    // Phân tích dữ liệu từ textarea Buyer - chỉ lấy Buyer ID, không cần tên
     parseBuyerData: function() {
         const buyerTextArea = document.getElementById('buyerPasteArea');
         if (!buyerTextArea) return [];
@@ -585,40 +675,27 @@ const WebAppManager = {
         
         const buyers = [];
         const uniqueBuyerIds = new Set(); // Để kiểm tra ID trùng lặp
-        const uniqueCustomerNames = new Set(); // Để kiểm tra tên trùng lặp
         const duplicateBuyerIds = []; // Lưu các ID trùng lặp
-        const duplicateCustomerNames = []; // Lưu các tên trùng lặp
         
         // Tách thành các dòng
         const lines = text.split('\n');
         for (const line of lines) {
             if (!line.trim()) continue;
             
-            // Tách thành các cột (tab hoặc nhiều spaces)
+            // Với định dạng đơn giản, chỉ lấy Buyer ID từ mỗi dòng
+            // Xử lý cả trường hợp có nhiều cột nhưng chỉ lấy cột đầu tiên
             const parts = line.trim().split(/\t|\s{2,}/);
+            const buyerId = parts[0].trim();
             
-            if (parts.length >= 2) {
-                const buyerId = parts[0].trim();
-                const customerName = parts.slice(1).join(' ').trim();
+            // Kiểm tra ID trùng lặp
+            if (uniqueBuyerIds.has(buyerId)) {
+                duplicateBuyerIds.push(buyerId);
+            } else {
+                uniqueBuyerIds.add(buyerId);
                 
-                // Kiểm tra ID trùng lặp
-                if (uniqueBuyerIds.has(buyerId)) {
-                    duplicateBuyerIds.push(buyerId);
-                } else {
-                    uniqueBuyerIds.add(buyerId);
-                }
-                
-                // Kiểm tra tên trùng lặp
-                if (uniqueCustomerNames.has(customerName)) {
-                    duplicateCustomerNames.push(customerName);
-                } else {
-                    uniqueCustomerNames.add(customerName);
-                }
-                
-                // Thêm vào mảng buyers
+                // Thêm vào mảng buyers - chỉ lưu ID không cần customerName
                 buyers.push({
-                    buyerId: buyerId,
-                    customerName: customerName
+                    buyerId: buyerId
                 });
             }
         }
@@ -629,13 +706,56 @@ const WebAppManager = {
             return [];
         }
         
-        // Hiển thị lỗi cụ thể nếu có tên trùng lặp
-        if (duplicateCustomerNames.length > 0) {
-            this.showResultMessage(`Tên khách hàng bị trùng lặp: ${duplicateCustomerNames.join(', ')}. Vui lòng kiểm tra lại danh sách khách hàng.`, 'error');
-            return [];
+        return buyers;
+    },
+    
+    // Chuẩn bị chuỗi Buyer IDs để hiển thị và lưu trữ
+    formatBuyerIdsString: function(buyers) {
+        // Nối tất cả các buyer ID với dấu cách để tạo thành một chuỗi
+        return buyers.map(buyer => buyer.buyerId).join(' ');
+    },
+    
+    // Tạo Request No theo định dạng mới: #"team"-"khu vực"-"No. of each submit"
+    generateRequestNo: function() {
+        // Lấy thông tin team và khu vực
+        let teamCode = "UNKNOWN";
+        let regionCode = "UNKNOWN";
+        
+        if (this.data.teamInfo) {
+            // Lấy mã team (lấy phần đầu của team ID, chuyển thành chữ hoa)
+            const teamParts = this.data.teamInfo.id.split('_');
+            if (teamParts.length > 0) {
+                teamCode= teamParts[0].toUpperCase();
+            }
+            
+            // Lấy mã khu vực (MN: Miền Nam, MB: Miền Bắc)
+            if (this.data.teamInfo.region === 'hcm') {
+                regionCode = "MN";
+            } else if (this.data.teamInfo.region === 'hanoi') {
+                regionCode = "MB";
+            }
         }
         
-        return buyers;
+        // Số thứ tự - Tạm thời làm đơn giản bằng cách lấy timestamp
+        // Trong triển khai thực tế, nên có một hệ thống đếm số lần submit
+        const now = new Date();
+        const sequenceNumber = Math.floor(Math.random() * 9000) + 1000; // Số ngẫu nhiên 4 chữ số
+        
+        // Tạo request no
+        return `#${teamCode}-${regionCode}-${sequenceNumber}`;
+    },
+    
+    // Định dạng timestamp ngắn gọn: yyyy-MM-dd HH:mm:ss
+    formatTimestamp: function() {
+        const now = new Date();
+        const year = now.getFullYear();
+        const month = String(now.getMonth() + 1).padStart(2, '0');
+        const day = String(now.getDate()).padStart(2, '0');
+        const hours = String(now.getHours()).padStart(2, '0');
+        const minutes = String(now.getMinutes()).padStart(2, '0');
+        const seconds = String(now.getSeconds()).padStart(2, '0');
+        
+        return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
     },
     
     // Phân tích dữ liệu từ textarea SKU
@@ -680,7 +800,7 @@ const WebAppManager = {
                 }
                 
                 // Kiểm tra giá tối thiểu
-                if (specialPrice < 1000) {
+                if (specialPrice < CONFIG.APP.MIN_PRICE) {
                     lowPriceSkus.push(`${sku} (${specialPrice.toLocaleString('vi-VN')} VNĐ)`);
                 }
                 
@@ -703,7 +823,7 @@ const WebAppManager = {
         
         // Nếu có SKU có giá dưới 1000 VNĐ, hiển thị lỗi và trả về mảng rỗng
         if (lowPriceSkus.length > 0) {
-            this.showResultMessage(`Các SKU có giá dưới 1000 VNĐ: ${lowPriceSkus.join(', ')}. Giá phải từ 1000 VNĐ trở lên.`, 'error');
+            this.showResultMessage(`Các SKU có giá dưới ${CONFIG.APP.MIN_PRICE.toLocaleString('vi-VN')} VNĐ: ${lowPriceSkus.join(', ')}. Giá phải từ ${CONFIG.APP.MIN_PRICE.toLocaleString('vi-VN')} VNĐ trở lên.`, 'error');
             return [];
         }
         
@@ -757,10 +877,10 @@ const WebAppManager = {
         }
         
         const threeMonthsLater = new Date(today);
-        threeMonthsLater.setMonth(today.getMonth() + 3);
+        threeMonthsLater.setMonth(today.getMonth() + CONFIG.APP.MAX_DURATION_MONTHS);
         
         if (endDateObj > threeMonthsLater) {
-            this.showResultMessage('Ngày kết thúc không được quá 3 tháng từ ngày hiện tại', 'error');
+            this.showResultMessage(`Ngày kết thúc không được quá ${CONFIG.APP.MAX_DURATION_MONTHS} tháng từ ngày hiện tại`, 'error');
             return;
         }
         
@@ -783,9 +903,8 @@ const WebAppManager = {
         const products = this.parseSkuData();
         
         // Kiểm tra dữ liệu đã phân tích
-        // Không hiển thị thông báo lỗi ở đây vì đã có thông báo chi tiết từ các hàm parse
         if (buyers.length === 0 || products.length === 0) {
-            return;
+            return; // Không hiển thị thông báo lỗi ở đây vì đã có thông báo từ các hàm parse
         }
         
         // Lưu trữ dữ liệu đã phân tích
@@ -795,10 +914,6 @@ const WebAppManager = {
         this.data.form.buyers = buyers;
         this.data.form.products = products;
         
-        // Tạo buyer ID string cho mục đích lưu trữ
-        const buyerIdsArray = buyers.map(buyer => buyer.buyerId);
-        const buyerIdsString = buyerIdsArray.join(', ');
-        
         // Tạo dữ liệu preview
         this.data.preview = {
             priceType: priceType,
@@ -806,7 +921,6 @@ const WebAppManager = {
             endDate: endDate,
             buyers: buyers,
             products: products,
-            buyerIdsString: buyerIdsString,
             timestamp: new Date(),
             userEmail: this.data.userEmail
         };
@@ -815,230 +929,380 @@ const WebAppManager = {
         this.displayPreview();
     },
     
-    // Hiển thị preview
+    // Hiển thị preview đơn giản hóa
     displayPreview: function() {
+        // Hiển thị phần Preview
         const previewContainer = document.getElementById('previewContainer');
+        if (previewContainer) {
+            previewContainer.style.display = 'block';
+        }
+        
+        // Lấy dữ liệu preview
+        const preview = this.data.preview;
         const previewContent = document.getElementById('previewContent');
         
-        if (!previewContainer || !previewContent || !this.data.preview) return;
+        if (!previewContent || !preview) {
+            return;
+        }
         
-        // Hiển thị container
-        previewContainer.style.display = 'block';
+        // Tạo Request No nếu chưa có
+        if (!this.data.requestNo) {
+            this.data.requestNo = this.generateRequestNo();
+        }
         
-        // Định dạng ngày
-        const formatDate = (dateStr) => {
+        // Hiển thị Request No
+        const requestNoDisplay = document.getElementById('request-no-display');
+        if (requestNoDisplay) {
+            requestNoDisplay.textContent = this.data.requestNo;
+        }
+        
+        // Format date to display in Vietnamese format (DD/MM/YYYY)
+        const formatDateDisplay = (dateStr) => {
             const date = new Date(dateStr);
-            return date.toLocaleDateString('vi-VN');
+            return `${date.getDate().toString().padStart(2, '0')}/${(date.getMonth() + 1).toString().padStart(2, '0')}/${date.getFullYear()}`;
         };
         
-        // Tạo nội dung preview
-        const preview = this.data.preview;
+        // Tạo phần preview buyers
+        const buyerIds = this.formatBuyerIdsString(preview.buyers);
         
-        // Tạo HTML cho preview
-        let html = `
-            <div class="preview-info">
-                <p><strong>Loại giá:</strong> ${preview.priceType}</p>
-                <p><strong>Áp dụng từ:</strong> ${formatDate(preview.startDate)} <strong>đến</strong> ${formatDate(preview.endDate)}</p>
-                <p><strong>Số lượng khách hàng:</strong> ${preview.buyers.length}</p>
-                <p><strong>Số lượng SKU:</strong> ${preview.products.length}</p>
-                <p><strong>Tổng số dòng dữ liệu:</strong> ${preview.buyers.length * preview.products.length}</p>
-                <p><strong>Google Sheet:</strong> <a href="${this.data.sheetInfo?.sheet_url || '#'}" target="_blank">${this.data.teamInfo?.name || 'Team'} - Google Sheets</a></p>
+        // Tạo phần preview dữ liệu
+        let previewHTML = `
+            <div class="preview-section">
+                <div class="preview-header">
+                    <i class="fas fa-info-circle"></i>
+                    <h4>Thông tin chung</h4>
+                </div>
+                <div class="preview-info">
+                    <div class="preview-row">
+                        <div class="preview-label">Request No:</div>
+                        <div class="preview-value">${this.data.requestNo}</div>
+                    </div>
+                    <div class="preview-row">
+                        <div class="preview-label">Loại giá:</div>
+                        <div class="preview-value">${preview.priceType}</div>
+                    </div>
+                    <div class="preview-row">
+                        <div class="preview-label">Áp dụng từ:</div>
+                        <div class="preview-value">${formatDateDisplay(preview.startDate)}</div>
+                    </div>
+                    <div class="preview-row">
+                        <div class="preview-label">Đến ngày:</div>
+                        <div class="preview-value">${formatDateDisplay(preview.endDate)}</div>
+                    </div>
+                    <div class="preview-row">
+                        <div class="preview-label">Người tạo:</div>
+                        <div class="preview-value">${preview.userEmail}</div>
+                    </div>
+                </div>
             </div>
-
-            <h4>Danh sách khách hàng:</h4>
-            <table class="data-table">
-                <thead>
-                    <tr>
-                        <th>STT</th>
-                        <th>Buyer ID</th>
-                        <th>Tên khách hàng</th>
-                    </tr>
-                </thead>
-                <tbody>
+            
+            <div class="preview-section">
+                <div class="preview-header">
+                    <i class="fas fa-users"></i>
+                    <h4>Khách hàng (${preview.buyers.length})</h4>
+                </div>
+                <div class="preview-info">
+                    <div class="preview-row">
+                        <div class="preview-label">Buyer ID gộp:</div>
+                        <div class="preview-value buyer-ids">${buyerIds}</div>
+                    </div>
+                    <table class="preview-table">
+                        <thead>
+                            <tr>
+                                <th>Buyer ID</th>
+                            </tr>
+                        </thead>
+                        <tbody>
         `;
         
-        // Thêm danh sách khách hàng
-        preview.buyers.forEach((buyer, index) => {
-            html += `
+        // Thêm các buyers
+        preview.buyers.forEach(buyer => {
+            previewHTML += `
                 <tr>
-                    <td>${index + 1}</td>
                     <td>${buyer.buyerId}</td>
-                    <td>${buyer.customerName}</td>
                 </tr>
             `;
         });
         
-        html += `
-                </tbody>
-            </table>
-
-            <h4>Danh sách sản phẩm:</h4>
-            <table class="data-table">
-                <thead>
-                    <tr>
-                        <th>STT</th>
-                        <th>SKU</th>
-                        <th>Tên SKU</th>
-                        <th>Giá đặc biệt</th>
-                    </tr>
-                </thead>
-                <tbody>
+        previewHTML += `
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            
+            <div class="preview-section">
+                <div class="preview-header">
+                    <i class="fas fa-tags"></i>
+                    <h4>Sản phẩm (${preview.products.length})</h4>
+                </div>
+                <div class="preview-info">
+                    <table class="preview-table">
+                        <thead>
+                            <tr>
+                                <th>SKU</th>
+                                <th>Tên sản phẩm</th>
+                                <th>Giá đặc biệt</th>
+                            </tr>
+                        </thead>
+                        <tbody>
         `;
         
-        // Thêm danh sách sản phẩm
-        preview.products.forEach((product, index) => {
-            html += `
+        // Thêm các products
+        preview.products.forEach(product => {
+            previewHTML += `
                 <tr>
-                    <td>${index + 1}</td>
                     <td>${product.sku}</td>
                     <td>${product.skuName}</td>
-                    <td>${product.specialPrice.toLocaleString('vi-VN')} VNĐ</td>
+                    <td class="right-align">${product.specialPrice.toLocaleString('vi-VN')} VNĐ</td>
                 </tr>
             `;
         });
         
-        html += `
-                </tbody>
-            </table>
+        previewHTML += `
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            
+            <div class="preview-section">
+                <div class="preview-header">
+                    <i class="fas fa-table"></i>
+                    <h4>Dữ liệu sẽ được ghi vào bảng</h4>
+                </div>
+                <div class="preview-info">
+                    <table class="preview-table">
+                        <thead>
+                            <tr>
+                                <th>Request No</th>
+                                <th>Buyer ID</th>
+                                <th>Loại Giá</th>
+                                <th>SKU</th>
+                                <th>Special Price</th>
+                                <th>Áp dụng Từ</th>
+                                <th>Đến</th>
+                            </tr>
+                        </thead>
+                        <tbody>
         `;
         
-        // Hiển thị HTML
-        previewContent.innerHTML = html;
+        // Thêm các dòng theo định dạng mới
+        preview.products.forEach(product => {
+            previewHTML += `
+                <tr>
+                    <td>${this.data.requestNo}</td>
+                    <td>${buyerIds}</td>
+                    <td>${preview.priceType}</td>
+                    <td>${product.sku}</td>
+                    <td class="right-align">${product.specialPrice.toLocaleString('vi-VN')}</td>
+                    <td>${formatDateDisplay(preview.startDate)}</td>
+                    <td>${formatDateDisplay(preview.endDate)}</td>
+                </tr>
+            `;
+        });
         
-        // Cuộn đến preview
-        previewContainer.scrollIntoView({ behavior: 'smooth' });
+        previewHTML += `
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        `;
+        
+        // Hiển thị dữ liệu
+        previewContent.innerHTML = previewHTML;
     },
     
     // Gửi dữ liệu
     submitData: function() {
-        // Kiểm tra xem đã preview dữ liệu chưa
+        // Kiểm tra xem đã preview chưa
         if (!this.data.preview) {
             this.showResultMessage('Vui lòng xem trước dữ liệu trước khi gửi', 'error');
             return;
         }
         
-        // Kiểm tra phiên đăng nhập còn hạn không
-        if (!this.validateSession()) {
-            return; // Đã chuyển hướng sang trang đăng nhập
+        // Kiểm tra kết nối mạng
+        if (!this.checkNetworkConnection()) {
+            this.showResultMessage('Không có kết nối mạng. Vui lòng kiểm tra lại kết nối của bạn trước khi gửi dữ liệu.', 'error');
+            return;
         }
+        
+        // Kiểm tra phiên đăng nhập
+        if (!this.validateSessionSimple()) {
+            this.showResultMessage('Phiên đăng nhập đã hết hạn hoặc không hợp lệ. Vui lòng đăng nhập lại.', 'error');
+            setTimeout(() => {
+                this.redirectToAuth();
+            }, 2000);
+            return;
+        }
+        
+        // Lưu lịch sử thao tác
+        this.saveHistory();
         
         // Hiển thị loading
         document.getElementById('loading').style.display = 'block';
+        document.getElementById('result').style.display = 'none';
+        document.getElementById('buttonContainer').style.display = 'none';
         
-        // Kiểm tra thông tin sheet
-        if (!this.data.sheetInfo) {
-            // Tải lại thông tin sheet nếu chưa có
-            this.loadSheetInfo();
-            if (!this.data.sheetInfo) {
-                // Ẩn loading
-                document.getElementById('loading').style.display = 'none';
-                this.showResultMessage('Không tìm thấy thông tin Google Sheet cho team này', 'error');
-                return;
-            }
-        }
+        // Chuẩn bị dữ liệu để gửi
+        const formData = this.prepareFormData();
         
-        // Tiếp tục quá trình gửi dữ liệu
-        this.processSubmit();
+        // Gọi API để gửi dữ liệu
+        this.sendDataToSheet(formData);
     },
     
-    // Xử lý gửi dữ liệu
-    processSubmit: function() {
-        // Chuẩn bị dữ liệu gửi lên server
-        const dataToSend = {
-            priceType: this.data.preview.priceType,
-            products: this.data.preview.products,
-            buyers: this.data.preview.buyers,
-            buyerIdsString: this.data.preview.buyerIdsString,
-            userEmail: this.data.userEmail,
-            teamId: this.data.teamId,
-            // Thêm thông tin sheet
-            sheet_id: this.data.sheetInfo.sheet_id,
-            sheet_name: this.data.sheetInfo.sheet_name
+    // Chuẩn bị dữ liệu cho form với định dạng mới
+    prepareFormData: function() {
+        // Lấy dữ liệu preview
+        const preview = this.data.preview;
+        
+        if (!preview) return null;
+        
+        // Format date to Google Sheets format (MM/DD/YYYY)
+        const formatDateForSheet = (dateStr) => {
+            const date = new Date(dateStr);
+            return `${(date.getMonth() + 1).toString().padStart(2, '0')}/${date.getDate().toString().padStart(2, '0')}/${date.getFullYear()}`;
         };
         
-        // Log kích thước dữ liệu để debug
-        const jsonData = JSON.stringify(dataToSend);
-        console.log("Kích thước dữ liệu (bytes):", new Blob([jsonData]).size);
-        console.log("Chuẩn bị gửi dữ liệu:", dataToSend);
+        // Lấy timestamp hiện tại theo định dạng ngắn gọn
+        const timestamp = this.formatTimestamp();
         
-        // URL của Google Apps Script Web App
-        const apiUrl = "https://script.google.com/a/macros/kamereo.vn/s/AKfycbxjjlfeZcjrX08mKhPkW9RqOss-e_Y7vd0JcbjBdTqGh7B5fck9lPsVhiTLh9Nym58r/exec";
-        console.log("API URL:", apiUrl);
+        // Tạo danh sách Buyer IDs gộp
+        const buyerIdsString = this.formatBuyerIdsString(preview.buyers);
         
-        // Tạo thẻ form ẩn và submit thay vì sử dụng fetch để tránh CORS
-        const form = document.createElement('form');
-        form.setAttribute('method', 'POST');
-        form.setAttribute('action', apiUrl);
-        form.setAttribute('target', 'hidden_iframe');
+        // Tạo mảng dữ liệu để gửi
+        // Chỉ tạo một entry cho mỗi sản phẩm với buyerIds gộp
+        const rowsData = [];
         
-        // Tạo input ẩn chứa dữ liệu JSON
-        const hiddenField = document.createElement('input');
-        hiddenField.setAttribute('type', 'hidden');
-        hiddenField.setAttribute('name', 'data');
-        hiddenField.setAttribute('value', jsonData);
-        form.appendChild(hiddenField);
+        preview.products.forEach(product => {
+            // Tạo dòng dữ liệu với thứ tự theo yêu cầu mới:
+            // Request No, Buyer ID, Loại Giá, SKU, Special Price, Áp dụng Từ, Đến, Timestamp, PIC
+            // Buyer ID là chuỗi gộp
+            rowsData.push({
+                'Request No': this.data.requestNo,
+                'Buyer ID': buyerIdsString,
+                'Loại Giá': preview.priceType,
+                'SKU': product.sku,
+                'Special Price': product.specialPrice,
+                'Áp dụng Từ': formatDateForSheet(preview.startDate),
+                'Đến': formatDateForSheet(preview.endDate),
+                'Timestamp': timestamp,
+                'PIC': preview.userEmail
+            });
+        });
         
-        // Thêm form vào body, submit, và xóa form
-        document.body.appendChild(form);
+        return {
+            sheetId: this.data.sheetInfo.sheet_id,
+            sheetName: this.data.sheetInfo.sheet_name,
+            teamId: this.data.teamId,
+            requestNo: this.data.requestNo,
+            userEmail: this.data.userEmail,
+            rowsData: rowsData
+        };
+    },
+    
+    // Gửi dữ liệu đến Google Sheet
+    sendDataToSheet: function(formData) {
+        if (!formData) {
+            this.showResultMessage('Không có dữ liệu để gửi', 'error');
+            return;
+        }
         
-        // Cập nhật nội dung iframe trước khi submit
-        const iframe = document.getElementById('hidden_iframe');
-        if (iframe) {
+        try {
+            // URL của Google Apps Script Web App - Sử dụng URL từ CONFIG hoặc URL dự phòng
+            const apiUrl = CONFIG.SCRIPT_URL || "https://script.google.com/macros/s/AKfycbxjjlfeZcjrX08mKhPkW9RqOss-e_Y7vd0JcbjBdTqGh7B5fck9lPsVhiTLh9Nym58r/exec";
+            
+            console.log("Chuẩn bị gửi dữ liệu đến:", apiUrl);
+            console.log("Dữ liệu gửi:", formData);
+            
+            // Tạo form ẩn để gửi dữ liệu (tránh CORS)
+            const form = document.createElement('form');
+            form.method = 'POST';
+            form.action = apiUrl;
+            form.target = 'hidden_iframe';
+            
+            // Thêm các field
+            form.appendChild(this.createHiddenField('action', 'saveData'));
+            form.appendChild(this.createHiddenField('sheetId', formData.sheetId));
+            form.appendChild(this.createHiddenField('sheetName', formData.sheetName));
+            form.appendChild(this.createHiddenField('teamId', formData.teamId));
+            form.appendChild(this.createHiddenField('requestNo', formData.requestNo));
+            form.appendChild(this.createHiddenField('userEmail', formData.userEmail));
+            form.appendChild(this.createHiddenField('rowsData', JSON.stringify(formData.rowsData)));
+            
+            // Thêm flag để tạo sheet TraceLog nếu cần
+            form.appendChild(this.createHiddenField('createTraceLog', 'true'));
+            
             // Tạo một timestamp để theo dõi lần submit này
             const submitTimestamp = Date.now();
-            iframe.setAttribute('data-submit-time', submitTimestamp);
             
             // Đặt thời gian chờ để xử lý trường hợp không nhận được phản hồi
             setTimeout(() => {
-                const currentTimestamp = iframe.getAttribute('data-submit-time');
-                if (currentTimestamp && parseInt(currentTimestamp) === submitTimestamp) {
-                    // Nếu vẫn là cùng một request (chưa có request mới)
-                    console.log("Đã hết thời gian chờ phản hồi, giả định thành công");
-                    document.getElementById('loading').style.display = 'none';
-                    
-                    // Giả định thành công nếu không nhận được phản hồi sau thời gian chờ
-                    this.handleSubmitResponse({
-                        success: true,
-                        message: "Dữ liệu đã được gửi thành công, vui lòng kiểm tra Google Sheet."
-                    });
-                }
-            }, 10000); // 10 giây timeout
+                console.log("Kiểm tra timeout, timestamp:", submitTimestamp);
+                // Giả định thành công nếu không nhận được phản hồi sau 10 giây
+                this.handleSubmitResponse({
+                    success: true,
+                    message: "Dữ liệu đã được gửi thành công (không nhận được phản hồi từ server sau 10 giây)"
+                });
+            }, 10000);
+            
+            // Thêm vào trang và gửi
+            document.body.appendChild(form);
+            console.log("Đang submit form...");
+            form.submit();
+            
+            // Xóa form sau khi gửi
+            setTimeout(() => {
+                document.body.removeChild(form);
+            }, 500);
+            
+        } catch (error) {
+            console.error('Lỗi khi gửi dữ liệu:', error);
+            this.showResultMessage(`Lỗi khi gửi dữ liệu: ${error.message}`, 'error');
+            
+            // Hiển thị lại các nút
+            document.getElementById('loading').style.display = 'none';
+            document.getElementById('buttonContainer').style.display = 'flex';
         }
-        
-        // Submit form
-        console.log("Đang submit form để gửi dữ liệu...");
-        form.submit();
-        
-        // Xóa form sau khi submit
-        document.body.removeChild(form);
     },
     
-    // Xử lý phản hồi từ việc gửi dữ liệu
-    handleSubmitResponse: function(result) {
+    // Tạo field ẩn cho form
+    createHiddenField: function(name, value) {
+        const field = document.createElement('input');
+        field.type = 'hidden';
+        field.name = name;
+        field.value = value;
+        return field;
+    },
+    
+    // Xử lý phản hồi từ form submit
+    handleSubmitResponse: function(response) {
         // Ẩn loading
         document.getElementById('loading').style.display = 'none';
+        document.getElementById('buttonContainer').style.display = 'flex';
         
-        if (result.success) {
-            // Lưu lịch sử thao tác
-            this.saveHistory();
-            
+        console.log('Phản hồi từ server:', response);
+        
+        if (response.success) {
             // Hiển thị thông báo thành công
-            this.showResultMessage(result.message || "Dữ liệu đã được gửi thành công!", 'success');
+            this.showResultMessage(`Dữ liệu đã được gửi thành công! Request No: ${this.data.requestNo}`, 'success');
             
-            // Đặt lại preview
-            this.data.preview = null;
-            
-            // Đặt lại form
-            document.getElementById('priceType').value = '';
+            // Xóa dữ liệu đã nhập để chuẩn bị cho lần tiếp theo
             document.getElementById('buyerPasteArea').value = '';
             document.getElementById('skuPasteArea').value = '';
             
-            // Đặt lại preview container
-            document.getElementById('previewContainer').style.display = 'none';
-            document.getElementById('previewContent').innerHTML = '';
+            // Reset dữ liệu preview
+            this.data.preview = null;
+            
+            // Ẩn preview
+            const previewContainer = document.getElementById('previewContainer');
+            if (previewContainer) {
+                previewContainer.style.display = 'none';
+            }
+            
+            // Reset Request No cho lần tiếp theo
+            this.data.requestNo = null;
         } else {
             // Hiển thị thông báo lỗi
-            this.showResultMessage(result.message || 'Lỗi khi gửi dữ liệu', 'error');
+            this.showResultMessage(`Lỗi: ${response.message || 'Không thể gửi dữ liệu'}`, 'error');
         }
     },
     
@@ -1185,12 +1449,13 @@ const WebAppManager = {
             history.unshift({
                 timestamp: new Date().getTime(),
                 preview: this.data.preview,
+                requestNo: this.data.requestNo,
                 teamId: this.data.teamId,
                 userEmail: this.data.userEmail,
                 sheetInfo: this.data.sheetInfo
             });
             
-            // Giới hạn số lượng mục lịch sử (giữ tối đa 10 mục)
+            // Giới hạn số lượng mục lịch sử (giữ tối đa 10mục)
             if (history.length > 10) {
                 history = history.slice(0, 10);
             }
@@ -1231,6 +1496,7 @@ const WebAppManager = {
                         <thead>
                             <tr>
                                 <th>Thời gian</th>
+                                <th>Request No</th>
                                 <th>Loại giá</th>
                                 <th>Khách hàng</th>
                                 <th>SKU</th>
@@ -1248,6 +1514,7 @@ const WebAppManager = {
                 html += `
                     <tr>
                         <td>${formattedDate}</td>
+                        <td>${item.requestNo || 'N/A'}</td>
                         <td>${item.preview.priceType}</td>
                         <td>${item.preview.buyers.length} khách hàng</td>
                         <td>${item.preview.products.length} sản phẩm</td>
@@ -1317,6 +1584,7 @@ const WebAppManager = {
             
             // Đặt lại dữ liệu form và preview
             this.data.preview = item.preview;
+            this.data.requestNo = item.requestNo;
             this.data.sheetInfo = item.sheetInfo;
             
             // Đặt lại giá trị cho các field
@@ -1328,16 +1596,16 @@ const WebAppManager = {
             const buyerTextArea = document.getElementById('buyerPasteArea');
             const skuTextArea = document.getElementById('skuPasteArea');
             
-            // Thiết lập textarea buyers
+            // Thiết lập textarea buyers - chỉ hiển thị Buyer ID
             if (buyerTextArea) {
                 let buyersText = '';
                 item.preview.buyers.forEach(buyer => {
-                    buyersText += `${buyer.buyerId}\t${buyer.customerName}\n`;
+                    buyersText += `${buyer.buyerId}\n`;
                 });
                 buyerTextArea.value = buyersText.trim();
             }
             
-            // Thiết lập textarea SKUs
+            // Thiết lập textarea SKUs - hiển thị SKU, SKU Name và giá
             if (skuTextArea) {
                 let skusText = '';
                 item.preview.products.forEach(product => {
@@ -1425,3 +1693,4 @@ document.addEventListener('DOMContentLoaded', function() {
     // Khởi động giám sát kết nối mạng
     WebAppManager.monitorNetworkStatus();
 });
+            

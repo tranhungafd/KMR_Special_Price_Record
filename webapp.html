@@ -10,9 +10,9 @@
     <link rel="stylesheet" href="css/webapp.css">
     <!-- Thêm FontAwesome để sử dụng các biểu tượng -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
 </head>
 <body>
-    <!-- Header section với layout cải tiến -->
     <div class="header">
         <div class="header-left">
             <img class="logo" src="images/Logo.png" alt="Logo">
@@ -47,7 +47,7 @@
     </div>
 
     <!-- Main content section -->
-        
+    <div class="content">
         <div class="nav-tabs">
             <div class="nav-tab active" data-section="input">
                 <i class="fas fa-edit tab-icon"></i> Nhập liệu
@@ -56,6 +56,7 @@
                 <i class="fas fa-question-circle tab-icon"></i> Trợ giúp
             </div>
         </div>
+        
         <!-- Tab nhập liệu -->
         <div id="input-section" class="nav-content active">
             <div id="form-container">
@@ -73,6 +74,7 @@
                         </a>
                     </div>
                 </div>
+                
                 <div class="form-row">
                     <div class="form-group">
                         <label>Loại Giá:<span class="required-mark">*</span></label>
@@ -98,30 +100,36 @@
                     </div>
                 </div>
 
-                <!-- Phần paste khách hàng -->
+                <!-- Cập nhật phần nhập buyer IDs -->
                 <div class="customer-info-container">
-                    <h3><i class="fas fa-users section-icon"></i> Thông tin khách hàng</h3>
-                    <div class="customer-paste-help">Dán dữ liệu từ clipboard với 2 cột: Buyer ID và Tên khách hàng</div>
-                    <textarea id="buyerPasteArea" placeholder="Dán dữ liệu Buyer ID và Tên khách hàng (2 cột từ Excel hoặc sheet)
-
-VD: 9859	Nhà hàng Nosh
-    9684	Nhà hàng Ngọc Sương Eatery "></textarea>
+                    <h3><i class="fas fa-users section-icon"></i> Danh sách Buyer ID</h3>
+                    <div class="customer-paste-help">Nhập mỗi Buyer ID một dòng</div>
+                    <textarea id="buyerPasteArea" placeholder="Nhập mỗi Buyer ID một dòng: 9684 8604 9859 ..."></textarea>
                 </div>
                 
-                <!-- Phần paste SKU và giá -->
+                <!-- Cập nhật phần nhập SKU và giá -->
                 <div class="sku-info-container">
                     <h3><i class="fas fa-tag section-icon"></i> Thông tin SKU và Giá</h3>
-                    <div class="sku-paste-help">Dán dữ liệu từ clipboard với 3 cột: SKU, SKU Name và Special Price (FINAL PRICE)</div>
-                    <textarea id="skuPasteArea" placeholder="Dán dữ liệu SKU, SKU Name và Special Price (FINAL PRICE) (3 cột từ Excel hoặc sheet)
-
-VD: FRU016	Ổi Ruột Đỏ 1kg/Vỉ	  30,000 
-    FRU017	Xoài Cát Chu 3 - 4 Trái/Kg	  60,000 
-    K181	Bưởi Da Xanh Miền Tây 1.2kg/ Trái	  70,000 "></textarea>
+                    <div class="sku-paste-help">Dán dữ liệu từ clipboard với 3 cột: SKU, Tên SKU và Giá đặc biệt</div>
+                    <textarea id="skuPasteArea" placeholder="Dán dữ liệu SKU, SKU Name và Special Price (3 cột từ Excel hoặc sheet)
+VD: A814 Trứng Gà GFoods 60g Hộp 10 Quả 26000
+    A009 Cà Chua Beef Đà Lạt 33000"></textarea>
                 </div>
                 
                 <!-- Preview dữ liệu trước khi gửi -->
                 <div id="previewContainer" class="preview-container">
                     <h3><i class="fas fa-eye section-icon"></i> Xem trước dữ liệu sẽ được gửi</h3>
+                    
+                    <!-- Cập nhật phần Request No -->
+                    <div class="request-no-container">
+                        <div class="request-no-header">
+                            <i class="fas fa-hashtag"></i>
+                            <h4>Mã yêu cầu (Request No)</h4>
+                        </div>
+                        <div class="request-no-value" id="request-no-display">-</div>
+                        <p class="request-no-note">Vui lòng lưu lại mã này để dễ dàng tham chiếu hoặc chỉnh sửa sau này.</p>
+                    </div>
+                    
                     <div id="previewContent"></div>
                 </div>
                 
@@ -163,6 +171,7 @@ VD: FRU016	Ổi Ruột Đỏ 1kg/Vỉ	  30,000
             <div class="help-card">
                 <h3><i class="fas fa-exclamation-triangle"></i> Lưu ý quan trọng:</h3>
                 <ul>
+                    <li>Một <strong>Request No</strong> sẽ được tạo tự động cho mỗi yêu cầu. Hãy lưu lại mã này để dễ dàng tham chiếu sau này.</li>
                     <li>Ngày áp dụng chỉ có thể chọn từ ngày mai trở đi, không được chọn ngày hôm nay hoặc quá khứ</li>
                     <li>Ngày kết thúc phải sau ngày bắt đầu và tối đa 3 tháng từ hiện tại</li>
                     <li>Khi paste dữ liệu, đảm bảo dữ liệu có đúng định dạng và thứ tự các cột</li>
@@ -184,6 +193,16 @@ VD: FRU016	Ổi Ruột Đỏ 1kg/Vỉ	  30,000
                 <h3><i class="fas fa-headset"></i> Liên hệ hỗ trợ</h3>
                 <p>Nếu bạn gặp khó khăn hoặc có câu hỏi, vui lòng liên hệ với người quản trị hệ thống.</p>
                 <p>Email: <a href="mailto:support@kamereo.vn">support@kamereo.vn</a></p>
+            </div>
+            
+            <div class="help-card">
+                <h3><i class="fas fa-history"></i> Chỉnh sửa hoặc xóa dữ liệu</h3>
+                <p>Nếu bạn cần chỉnh sửa hoặc xóa dữ liệu đã gửi:</p>
+                <ol>
+                    <li>Ghi lại <strong>Request No</strong> được tạo khi gửi dữ liệu</li>
+                    <li>Liên hệ với Admin cung cấp Request No và yêu cầu cụ thể</li>
+                    <li>Admin sẽ giúp bạn xóa hoặc chỉnh sửa dữ liệu dựa trên Request No</li>
+                </ol>
             </div>
         </div>
     </div>

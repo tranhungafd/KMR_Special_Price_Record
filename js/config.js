@@ -10,27 +10,45 @@ const CONFIG = {
           id: 'sme_hn', 
           name: 'SME khu vực Miền Bắc', 
           icon: '👥', 
-          //description: 'Đội SME khu vực Miền Bắc', 
-          emails: ['thanhbinh.le@kamereo.vn', 'admin@kamereo.vn'],
-          sheet_id: '1Yib-LG1VBlXruGJcZgEmjE3Qf9Ct37wZKeefTfbtKMk', // ID Google Sheet SME Miền Bắc
-          sheet_name: 'Sheet1' // Tên tab sheet trong Google Sheet
-        },
-        { 
-          id: 'ka_hn', 
-          name: 'KA khu vực Miền Bắc', 
-          icon: '🏢', 
-          //description: 'Đội KA khu vực Miền Bắc', 
-          emails: ['thanhbinh.le@kamereo.vn', 'hung.tran@kamereo.vn', 'ka.hanoi@kamereo.vn'],
-          sheet_id: '1nRYjW0X5NWB5F-XmvMJsmQ-8mgr0UU8gm4ZGUYb5nSU', // ID Google Sheet KA Miền Bắc
+          description: 'Quản lý khách hàng SME tại khu vực miền Bắc', 
+          emails: ['user1@kamereo.vn', 'user2@kamereo.vn'], 
+          sheet_id: '1Yib-LG1VBlXruGJcZgEmjE3Qf9Ct37wZKeefTfbtKMk',
           sheet_name: 'Sheet1'
         },
         { 
-          id: 'mt_hn', 
-          name: 'MT khu vực Miền Bắc', 
+          id: 'ka_mt_hn', 
+          name: 'KA MT khu vực Miền Bắc', 
           icon: '🛒', 
-          //description: 'Đội MT khu vực Miền Bắc', 
-          emails: ['user3@kamereo.vn', 'mt.hanoi@kamereo.vn'],
-          sheet_id: '1YaI4aeh8mJ5i1g7fM2JJUSezVDISXAYFbQPH5NEbSUo', // ID Google Sheet MT Miền Bắc
+          description: 'Quản lý khách hàng MT lớn tại miền Bắc',
+          emails: ['user3@kamereo.vn', 'user4@kamereo.vn'],
+          sheet_id: '1nRYjW0X5NWB5F-XmvMJsmQ-8mgr0UU8gm4ZGUYb5nSU',
+          sheet_name: 'Sheet1'
+        },
+        { 
+          id: 'ka_fc_hn', 
+          name: 'KA FC khu vực Miền Bắc', 
+          icon: '🏢', 
+          description: 'Quản lý khách hàng FC tại miền Bắc',
+          emails: ['user5@kamereo.vn', 'user6@kamereo.vn'],
+          sheet_id: '1YaI4aeh8mJ5i1g7fM2JJUSezVDISXAYFbQPH5NEbSUo',
+          sheet_name: 'Sheet1'
+        },
+        { 
+          id: 'ka_school_hn', 
+          name: 'KA School Factory khu vực Miền Bắc', 
+          icon: '🏫', 
+          description: 'Quản lý khách hàng trường học tại miền Bắc',
+          emails: ['user7@kamereo.vn', 'user8@kamereo.vn'],
+          sheet_id: '1nRYjW0X5NWB5F-XmvMJsmQ-8mgr0UU8gm4ZGUYb5nSU',
+          sheet_name: 'Sheet1'
+        },
+        { 
+          id: 'ka_hotel_hn', 
+          name: 'KA Hotel Convention khu vực Miền Bắc', 
+          icon: '🏨', 
+          description: 'Quản lý khách hàng khách sạn tại miền Bắc',
+          emails: ['user9@kamereo.vn', 'user10@kamereo.vn'],
+          sheet_id: '1YaI4aeh8mJ5i1g7fM2JJUSezVDISXAYFbQPH5NEbSUo',
           sheet_name: 'Sheet1'
         }
       ]
@@ -42,56 +60,72 @@ const CONFIG = {
           id: 'sme_hcm', 
           name: 'SME khu vực Miền Nam', 
           icon: '👥', 
-          //description: 'Đội SME khu vực Miền Nam', 
-          emails: ['kien.le@kamereo.vn', 'sme.hcm@kamereo.vn'],
-          sheet_id: '1XkHZ_0PBzBLL-rhW5Ldb5YkxRfXm_WJKQrRYCgd7W5I', // ID Google Sheet SME Miền Nam
+          description: 'Quản lý khách hàng SME tại khu vực miền Nam',
+          emails: ['user11@kamereo.vn', 'user12@kamereo.vn'],
+          sheet_id: '1XkHZ_0PBzBLL-rhW5Ldb5YkxRfXm_WJKQrRYCgd7W5I',
           sheet_name: 'Sheet1'
         },
         { 
-          id: 'ka_hcm', 
-          name: 'KA khu vực Miền Nam', 
-          icon: '🏢', 
-          //description: 'Đội KA khu vực Miền Nam', 
-          // Thêm email của bạn vào đây nếu cần
-          emails: ['user5@kamereo.vn', 'ka.hcm@kamereo.vn', 'your.email@kamereo.vn'],
-          sheet_id: '1UIxh6YeaRgU85pa21nhpe15bUBtTywn5LoK8tafbSJ4', // ID Google Sheet KA Miền Nam
-          sheet_name: 'Sheet1'
-        },
-        { 
-          id: 'mt_hcm', 
-          name: 'MT khu vực Miền Nam', 
+          id: 'ka_mt_hcm', 
+          name: 'KA MT khu vực Miền Nam', 
           icon: '🛒', 
-          //description: 'Đội MT khu vực Miền Nam', 
-          emails: ['user6@kamereo.vn', 'mt.hcm@kamereo.vn'],
-          sheet_id: '1-6pZBacYy_OPhnKE7hMEnHxdXqcXLIkn_H7jdEDZIz0', // ID Google Sheet MT Miền Nam
+          description: 'Quản lý khách hàng MT lớn tại miền Nam',
+          emails: ['user13@kamereo.vn', 'user14@kamereo.vn'],
+          sheet_id: '1UIxh6YeaRgU85pa21nhpe15bUBtTywn5LoK8tafbSJ4',
+          sheet_name: 'Sheet1'
+        },
+        { 
+          id: 'ka_fc_hcm', 
+          name: 'KA FC khu vực Miền Nam', 
+          icon: '🏢', 
+          description: 'Quản lý khách hàng FC tại miền Nam',
+          emails: ['user15@kamereo.vn', 'user16@kamereo.vn'],
+          sheet_id: '1-6pZBacYy_OPhnKE7hMEnHxdXqcXLIkn_H7jdEDZIz0',
+          sheet_name: 'Sheet1'
+        },
+        { 
+          id: 'ka_school_hcm', 
+          name: 'KA School Factory khu vực Miền Nam', 
+          icon: '🏫', 
+          description: 'Quản lý khách hàng trường học tại miền Nam',
+          emails: ['user17@kamereo.vn', 'user18@kamereo.vn'],
+          sheet_id: '1UIxh6YeaRgU85pa21nhpe15bUBtTywn5LoK8tafbSJ4',
+          sheet_name: 'Sheet1'
+        },
+        { 
+          id: 'ka_hotel_hcm', 
+          name: 'KA Hotel Convention khu vực Miền Nam', 
+          icon: '🏨', 
+          description: 'Quản lý khách hàng khách sạn tại miền Nam',
+          emails: ['user19@kamereo.vn', 'user20@kamereo.vn'],
+          sheet_id: '1-6pZBacYy_OPhnKE7hMEnHxdXqcXLIkn_H7jdEDZIz0',
           sheet_name: 'Sheet1'
         }
       ]
     }
   },
 
-  // Danh sách admin có quyền truy cập mọi team
-  // Thêm email của bạn vào đây để có quyền admin nếu cần
+  // Danh sách admin có quyền truy cập mọi team - Giữ nguyên
   ADMINS: ['viet.truong@kamereo.vn', 'dat.pham@kamereo.vn', 'admin@kamereo.vn', 'khanh.le@kamereo.vn'],
 
-  // Thời gian phiên làm việc (giờ)
+  // Thời gian phiên làm việc (giờ) - Giữ nguyên
   SESSION_DURATION: 8,
   
-  // URL sheet mặc định cho admin nếu cần
+  // URL sheet mặc định cho admin nếu cần - Giữ nguyên
   DEFAULT_SHEET_URL: 'https://docs.google.com/spreadsheets/d/1MHrocjehDrOyYgg7sxAI1Coa1WWmu5xynbZGfgRek08/edit?gid=0#gid=0',
   DEFAULT_SHEET_ID: '1MHrocjehDrOyYgg7sxAI1Coa1WWmu5xynbZGfgRek08',
   DEFAULT_SHEET_NAME: 'Sheet1',
   
-  // URL của Google Apps Script Web App
-  SCRIPT_URL: 'https://script.google.com/a/macros/kamereo.vn/s/AKfycbxjjlfeZcjrX08mKhPkW9RqOss-e_Y7vd0JcbjBdTqGh7B5fck9lPsVhiTLh9Nym58r/exec',
+  // URL của Google Apps Script Web App 
+  SCRIPT_URL: 'https://script.google.com/macros/s/AKfycbz6UAGgPphZOfxbRJRoS37g_K7WW4xLa-VnVSFhwXw-HMomXjSDwlTQr_csBUXVBmSs/exec',
   
-  // Cấu hình Google OAuth
+  // Cấu hình Google OAuth - Giữ nguyên
   GOOGLE_AUTH: {
     CLIENT_ID: '252140887716-99uet6je2g4r4nouqdrom4jdp93cm9dc.apps.googleusercontent.com',
-    HOSTED_DOMAIN: 'kamereo.vn'  // Giới hạn domain đăng nhập
+    HOSTED_DOMAIN: 'kamereo.vn'
   },
   
-  // Cấu hình ứng dụng
+  // Cấu hình ứng dụng - Giữ nguyên
   APP: {
     NAME: '[BOS] KMR Special Price Record',
     VERSION: '1.0.0',
@@ -102,14 +136,14 @@ const CONFIG = {
       'buyers', 
       'products'
     ],
-    MIN_PRICE: 1000,  // Giá tối thiểu (VND)
-    MAX_DURATION_MONTHS: 3  // Thời gian áp dụng tối đa (tháng)
+    MIN_PRICE: 1000,
+    MAX_DURATION_MONTHS: 3
   },
   
   // Cấu hình debug và phát triển
   DEBUG: {
-    ENABLED: true,  // Đã bật chế độ debug để dễ dàng khắc phục lỗi
-    LOG_LEVEL: 'info',  // error, warn, info, debug
-    MOCK_API: false  // Giả lập API (không gọi thực sự)
+    ENABLED: true,
+    LOG_LEVEL: 'info',
+    MOCK_API: false
   }
 };

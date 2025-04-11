@@ -1,0 +1,106 @@
+/* format-selection.css - Style cho trang chọn định dạng đăng ký */
+
+.format-title {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.format-title h2 {
+    color: #3b82f6;
+    margin-bottom: 10px;
+}
+
+.format-selection {
+    max-width: 900px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    flex-wrap: wrap;
+}
+
+.format-card {
+    background-color: white;
+    border-radius: 12px;
+    padding: 30px;
+    width: 380px;
+    text-align: center;
+    cursor: pointer;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    text-decoration: none;
+    color: inherit;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+    border: 2px solid #f1f5f9;
+}
+
+.format-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.12);
+    border-color: #e2e8f0;
+}
+
+.format-card:nth-child(1):hover {
+    border-color: #60a5fa;
+}
+
+.format-card:nth-child(2):hover {
+    border-color: #f87171;
+}
+
+.format-icon {
+    font-size: 54px;
+    margin-bottom: 20px;
+}
+
+.format-card:nth-child(1) .format-icon {
+    color: #3b82f6;
+}
+
+.format-card:nth-child(2) .format-icon {
+    color: #ef4444;
+}
+
+.format-card h3 {
+    color: #1e293b;
+    font-size: 20px;
+    margin-bottom: 15px;
+}
+
+.format-card p {
+    color: #64748b;
+    font-size: 15px;
+}
+
+.back-button {
+    text-align: center;
+    margin-top: 40px;
+}
+
+.btn-back {
+    background-color: #e2e8f0;
+    color: #4a5568;
+    padding: 12px 25px;
+    border: none;
+    border-radius: 8px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.btn-back:hover {
+    background-color: #cbd5e0;
+    transform: translateY(-2px);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .format-selection {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .format-card {
+        width: 100%;
+        max-width: 380px;
+    }
+}

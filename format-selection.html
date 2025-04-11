@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>[BOS] KMR Special Price Record - Trang Chủ</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>[BOS] KMR Special Price Record - Chọn Định Dạng</title>
     <link rel="icon" href="favicon.ico" type="image/x-icon">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/main.css">
-    <link rel="stylesheet" href="css/home.css">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/format-selection.css">
     <style>
         :root {
             --primary-color: #3b82f6;
@@ -191,56 +191,42 @@
     </style>
 </head>
 <body>
-    <header class="header">
-        <div class="container">
-            <div class="header-content">
-                <img class="logo" src="images/Logo.png" alt="KMR Logo">
-                <h1>[BOS] KMR Special Price Record</h1>
-            </div>
-        </div>
-    </header>
+    <div class="header">
+        <img class="logo" src="images/Logo.png" alt="Logo">
+        <h1>[BOS] KMR Special Price Record</h1>
+    </div>
     
-    <main>
-        <section class="welcome-section">
-            <div class="container">
-                <h2>Chào mừng đến KMR Special Price Record</h2>
-                <p>Vui lòng chọn khu vực của bạn để tiếp tục</p>
-            </div>
-        </section>
+    <div class="content">
+        <div class="format-title">
+            <h2>Chọn Định Dạng Đăng Ký</h2>
+            <p>Vui lòng chọn một trong hai định dạng dưới đây</p>
+        </div>
         
-        <div class="container">
-            <div class="region-cards">
-                <a href="region.html?region=hanoi" class="region-card">
-                    <div class="region-image">
-                        <img src="images/ChuaMotCot.jpg" alt="Chùa Một Cột - Miền Bắc">
-                    </div>
-                    <div class="region-info">
-                        <h3>Miền Bắc</h3>
-                        <p>Các đội ngũ khu vực miền Bắc</p>
-                    </div>
-                </a>
-                
-                <a href="region.html?region=hcm" class="region-card">
-                    <div class="region-image">
-                        <img src="images/ChoBenThanh.jpg" alt="Chợ Bến Thành - Miền Nam">
-                    </div>
-                    <div class="region-info">
-                        <h3>Miền Nam</h3>
-                        <p>Các đội ngũ khu vực miền Nam</p>
-                    </div>
-                </a>
-            </div>
+        <div class="format-selection">
+            <a href="https://docs.google.com/forms/d/e/1FAIpQLSddJgVWmilAw179BUsyYfgXtJbadUO_IDT-DbIHsP3JYWiVsw/viewform?fbzx=3547341758635371992" target="_blank" class="format-card">
+                <div class="format-icon">📝</div>
+                <h3>1. Monthly Price Format Registration</h3>
+                <p>Đăng ký giá Tháng</p>
+            </a>
+            
+            <a href="#" id="webappLink" class="format-card">
+                <div class="format-icon">🔖</div>
+                <h3>2. Price Format Registration</h3>
+                <p>Đăng ký giá Đặc Biệt</p>
+            </a>
         </div>
-    </main>
+        
+        <div class="back-button">
+            <button class="btn btn-back" id="backButton">Quay lại</button>
+        </div>
+    </div>
     
-    <footer class="footer">
-        <div class="container">
-            <p>© 2025 Hệ thống quản lý giá đặc biệt được tạo bởi Team BOS.</p>
-        </div>
-    </footer>
+    <div class="footer">
+        <p>© 2025 Hệ thống quản lý giá đặc biệt được tạo bởi Team BOS.</p>
+    </div>
 
+    <!-- Scripts -->
     <script src="js/config.js"></script>
-    <script src="js/team-emails.js"></script>
-    <script src="js/home.js"></script>
+    <script src="js/format-selection.js"></script>
 </body>
 </html>

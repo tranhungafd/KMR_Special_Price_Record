@@ -8,12 +8,197 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/main.css">
     <link rel="stylesheet" href="css/region.css">
+    <style>
+        :root {
+            --primary-color: #3b82f6;
+            --secondary-color: #2980b9;
+            --accent-color: #3498db;
+            --text-color: #333;
+            --light-bg: #f8f9fa;
+            --border-radius: 12px;
+            --box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Roboto', sans-serif;
+            color: var(--text-color);
+            background-color: #f0f2f5;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        .header {
+            background-color: white;
+            padding: 15px 0;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .header-content {
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+        }
+        
+        .logo {
+            height: 60px;
+            margin-right: 20px;
+        }
+        
+        .header h1 {
+            font-family: 'Poppins', sans-serif;
+            color: var(--primary-color);
+            font-size: 1.8rem;
+            font-weight: 600;
+        }
+        
+        .welcome-section {
+            text-align: center;
+            padding: 50px 0 30px;
+            background-color: white;
+            margin-bottom: 30px;
+            border-radius: 0 0 var(--border-radius) var(--border-radius);
+            box-shadow: var(--box-shadow);
+        }
+        
+        .welcome-section h2 {
+            font-family: 'Poppins', sans-serif;
+            color: var(--primary-color);
+            font-size: 2rem;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+        
+        .welcome-section p {
+            font-size: 1.1rem;
+            color: #666;
+            margin-bottom: 20px;
+        }
+        
+        .region-cards {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 30px;
+            padding: 20px 0 60px;
+        }
+        
+        .region-card {
+            background-color: white;
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            width: 100%;
+            max-width: 380px;
+            box-shadow: var(--box-shadow);
+            transition: var(--transition);
+            text-decoration: none;
+            color: var(--text-color);
+        }
+        
+        .region-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+        }
+        
+        .region-image {
+            width: 100%;
+            height: 240px;
+            overflow: hidden;
+        }
+        
+        .region-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+        
+        .region-card:hover .region-image img {
+            transform: scale(1.05);
+        }
+        
+        .region-info {
+            padding: 20px;
+            text-align: center;
+        }
+        
+        .region-info h3 {
+            font-family: 'Poppins', sans-serif;
+            color: var(--primary-color);
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+        
+        .region-info p {
+            color: #666;
+        }
+        
+        .footer {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 20px 0;
+            text-align: center;
+            margin-top: 40px;
+        }
+        
+        .footer p {
+            font-size: 0.9rem;
+        }
+        
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .logo {
+                margin-right: 0;
+                margin-bottom: 10px;
+            }
+            
+            .header h1 {
+                font-size: 1.5rem;
+            }
+            
+            .welcome-section {
+                padding: 30px 15px;
+            }
+            
+            .welcome-section h2 {
+                font-size: 1.7rem;
+            }
+            
+            .region-cards {
+                padding: 10px 15px 40px;
+            }
+        }
+    </style>
 </head>
 <body>
-    <div class="header">
-        <img class="logo" src="images/Logo.png" alt="Logo">
-        <h1>[BOS] KMR Special Price Record</h1>
-    </div>
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <img class="logo" src="images/Logo.png" alt="KMR Logo">
+                <h1>[BOS] KMR Special Price Record</h1>
+            </div>
+        </div>
+    </header>
     
     <div class="content">
         <div class="region-title">
@@ -39,8 +224,8 @@
     </div>
 
     <!-- Tải các script cần thiết -->
-    <script src="js/config.js"></script>
-    <script src="js/api.js"></script>
-    <script src="js/region.js"></script>
+<script src="js/config.js"></script>
+<script src="js/api.js"></script>
+<script src="js/region.js"></script>
 </body>
 </html>

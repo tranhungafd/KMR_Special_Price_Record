@@ -62,7 +62,7 @@ const AuthManager = {
                 // Sử dụng email test để bypass xác thực
                 const testEmail = 'debug@kamereo.vn';
                 this.createSession(this.teamId, testEmail);
-                window.location.href = `webapp.html?team=${this.teamId}&email=${encodeURIComponent(testEmail)}`;
+                window.location.href = `format-selection.html?team=${this.teamId}&email=${encodeURIComponent(testEmail)}`;
             });
             
             container.appendChild(debugBtn);
@@ -280,11 +280,11 @@ const AuthManager = {
         // Tạo phiên đăng nhập
         this.createSession(this.teamId, email);
         
-        // Tạo URL chuyển hướng
-        const redirectUrl = `webapp.html?team=${this.teamId}&email=${encodeURIComponent(email)}`;
+        // Tạo URL chuyển hướng đến format-selection.html thay vì webapp.html
+        const redirectUrl = `format-selection.html?team=${this.teamId}&email=${encodeURIComponent(email)}`;
         console.log('Chuyển hướng đến:', redirectUrl);
         
-        // Chuyển hướng đến trang webapp
+        // Chuyển hướng đến trang chọn định dạng
         window.location.href = redirectUrl;
     },
     
@@ -306,8 +306,12 @@ const AuthManager = {
                     userTeams.push({
                         id: team.id,
                         name: team.name,
+                        icon: team.icon,
+                        description: team.description,
                         region: regionId,
-                        regionName: region.name
+                        regionName: region.name,
+                        sheet_id: team.sheet_id,
+                        sheet_name: team.sheet_name
                     });
                 }
             }

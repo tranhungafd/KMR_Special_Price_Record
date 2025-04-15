@@ -29,7 +29,7 @@ const CONFIG = {
           name: 'KA FC khu vực Miền Bắc', 
           icon: '🏢', 
           description: '',
-          emails: ['hung.tran@kamereo.vn','trang.doan@kamereo.vn'],
+          emails: ['hung.tran@kamereo.vn','kien.le@kamereo.vn','trang.doan@kamereo.vn'],
           sheet_id: '1YaI4aeh8mJ5i1g7fM2JJUSezVDISXAYFbQPH5NEbSUo',
           sheet_name: 'Sheet1'
         },
@@ -106,7 +106,7 @@ const CONFIG = {
   },
 
   // Danh sách admin có quyền truy cập mọi team - Giữ nguyên
-  ADMINS: ['viet.truong@kamereo.vn', 'dat.pham@kamereo.vn', 'khanh.le@kamereo.vn', 'kien.le@kamereo.vn','thanhbinh.le@kamereo.vn'],
+  ADMINS: ['viet.truong@kamereo.vn', 'dat.pham@kamereo.vn', 'khanh.le@kamereo.vn','thanhbinh.le@kamereo.vn'],
 
   // Thời gian phiên làm việc (giờ) - Giữ nguyên
   SESSION_DURATION: 8,

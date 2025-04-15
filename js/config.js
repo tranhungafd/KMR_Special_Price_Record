@@ -29,7 +29,7 @@ const CONFIG = {
           name: 'KA FC khu vực Miền Bắc', 
           icon: '🏢', 
           description: '',
-          emails: ['hung.tran@kamereo.vn','kien.le@kamereo.vn','trang.doan@kamereo.vn', 'kien.le@kamereo.vn'],
+          emails: ['hung.tran@kamereo.vn', 'kien.le@kamereo.vn','trang.doan@kamereo.vn', 'kien.le@kamereo.vn'],
           sheet_id: '1nRYjW0X5NWB5F-XmvMJsmQ-8mgr0UU8gm4ZGUYb5nSU',
           sheet_name: 'Sheet1'
         },

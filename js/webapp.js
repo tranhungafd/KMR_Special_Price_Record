@@ -724,8 +724,8 @@ const WebAppManager = {
         if (this.data.teamInfo) {
             // Lấy mã team (lấy phần đầu của team ID, chuyển thành chữ hoa)
             const teamParts = this.data.teamInfo.id.split('_');
-            if (teamParts.length > 0) {
-                teamCode= teamParts[0].toUpperCase();
+            if (teamParts.length > 1) {
+                teamParts[0].toUpperCase() + "_" + teamParts[1].toUpperCase();
             }
             
             // Lấy mã khu vực (MN: Miền Nam, MB: Miền Bắc)

@@ -8,7 +8,7 @@ const CONFIG = {
       teams: [
         { 
           id: 'sme_hn', 
-          name: 'SME khu vực Miền Bắc', 
+          name: 'SME Horeca', 
           icon: '👥', 
           description: '', 
           emails: ['nguyet.tran@kamereo.vn', 'thao.nguyen@kamereo.vn'], 

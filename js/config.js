@@ -11,7 +11,7 @@ const CONFIG = {
           name: 'SME khu vực Miền Bắc', 
           icon: '👥', 
           description: '', 
-          emails: ['hung.tran@kamereo.vn','nguyet.tran@kamereo.vn','thao.nguyen@kamereo.vn'], 
+          emails: ['nguyet.tran@kamereo.vn','thao.nguyen@kamereo.vn'], 
           sheet_id: '1Yib-LG1VBlXruGJcZgEmjE3Qf9Ct37wZKeefTfbtKMk',
           sheet_name: 'Sheet1'
         },

@@ -8,46 +8,46 @@ const CONFIG = {
       teams: [
         { 
           id: 'sme_hn', 
-          name: 'SME Horeca', 
+          name: 'SME Horeca Miền Bắc', 
           icon: '👥', 
           description: '', 
-          emails: ['nguyet.tran@kamereo.vn', 'thao.nguyen@kamereo.vn'], 
+          emails: ['tam.le@kamereo.vn','nguyet.tran@kamereo.vn', 'thao.nguyen@kamereo.vn'], 
           sheet_id: '1Yib-LG1VBlXruGJcZgEmjE3Qf9Ct37wZKeefTfbtKMk',
           sheet_name: 'Sheet1'
         },
         { 
           id: 'ka_mt_hn', 
-          name: 'KA MT khu vực Miền Bắc', 
+          name: 'KA MT Miền Bắc', 
           icon: '🛒', 
           description: '',
-          emails: ['hung.tran@kamereo.vn', 'tu.hoang@kamereo.vn', 'kien.le@kamereo.vn'],
+          emails: ['tam.le@kamereo.vn','tu.hoang@kamereo.vn'],
           sheet_id: '1YaI4aeh8mJ5i1g7fM2JJUSezVDISXAYFbQPH5NEbSUo',
           sheet_name: 'Sheet1'
         },
         { 
           id: 'ka_fc_hn', 
-          name: 'KA FC khu vực Miền Bắc', 
+          name: 'KA FC Miền Bắc', 
           icon: '🏢', 
           description: '',
-          emails: ['hung.tran@kamereo.vn', 'kien.le@kamereo.vn','trang.doan@kamereo.vn', 'kien.le@kamereo.vn'],
+          emails: ['tam.le@kamereo.vn','hung.tran@kamereo.vn', 'kien.le@kamereo.vn','trang.doan@kamereo.vn', 'kien.le@kamereo.vn'],
           sheet_id: '1nRYjW0X5NWB5F-XmvMJsmQ-8mgr0UU8gm4ZGUYb5nSU',
           sheet_name: 'Sheet1'
         },
         { 
           id: 'ka_school_hn', 
-          name: 'KA School Factory khu vực Miền Bắc', 
+          name: 'KA School-Factory Miền Bắc', 
           icon: '🏫', 
           description: '',
-          emails: ['hung.tran@kamereo.vn','van.nguyen@kamereo.vn', 'kien.le@kamereo.vn'],
+          emails: ['tam.le@kamereo.vn','van.nguyen@kamereo.vn'],
           sheet_id: '1SvBqFeDML8vCknUf19Pggy8tsc60nEVkhhRZz2gbmP4',
           sheet_name: 'Sheet1'
         },
         { 
           id: 'ka_hotel_hn', 
-          name: 'KA Hotel Convention khu vực Miền Bắc', 
+          name: 'KA Hotel-Convention Miền Bắc', 
           icon: '🏨', 
           description: '',
-          emails: ['hung.tran@kamereo.vn','tuyen.nguyen@kamereo.vn'],
+          emails: ['tam.le@kamereo.vn','tuyen.nguyen@kamereo.vn'],
           sheet_id: '1GI3U3TTvxds0IQBBj-TFhA3YuEevXRYPUQ1XClxN1rw',
           sheet_name: 'Sheet1'
         }
@@ -58,16 +58,16 @@ const CONFIG = {
       teams: [
         { 
           id: 'sme_hcm', 
-          name: 'SME khu vực Miền Nam', 
+          name: 'SME Horeca Miền Nam', 
           icon: '👥', 
           description: '',
-          emails: ['ducphong.nguyen@kamereo.vn', 'tri.vo@kamereo.vn', 'cuong.huynh@kamereo.vn', 'hieu.ngoc@kamereo.vn', 'vi.dang@kamereo.vn','tri.nguyen@kamereo.vn','duong.doan@kamereo.vn'],
+          emails: ['phong.ha@kamereo.vn','ducphong.nguyen@kamereo.vn', 'tri.vo@kamereo.vn', 'cuong.huynh@kamereo.vn', 'hieu.ngoc@kamereo.vn', 'vi.dang@kamereo.vn','tri.nguyen@kamereo.vn','duong.doan@kamereo.vn'],
           sheet_id: '1XkHZ_0PBzBLL-rhW5Ldb5YkxRfXm_WJKQrRYCgd7W5I',
           sheet_name: 'Sheet1'
         },
         { 
           id: 'ka_mt_hcm', 
-          name: 'KA MT khu vực Miền Nam', 
+          name: 'KA MT Miền Nam', 
           icon: '🛒', 
           description: '',
           emails: ['ducphong.nguyen@kamereo.vn'],
@@ -76,7 +76,7 @@ const CONFIG = {
         },
         { 
           id: 'ka_fc_hcm', 
-          name: 'KA FC khu vực Miền Nam', 
+          name: 'KA FC Miền Nam', 
           icon: '🏢', 
           description: '',
           emails: ['ducphong.nguyen@kamereo.vn','san.le@kamereo.vn','trongnhan.nguyen@kamereo.vn'],
@@ -85,7 +85,7 @@ const CONFIG = {
         },
         { 
           id: 'ka_school_hcm', 
-          name: 'KA School Factory khu vực Miền Nam', 
+          name: 'KA School-Factory Miền Nam', 
           icon: '🏫', 
           description: '',
           emails: [ 'ducphong.nguyen@kamereo.vn','man.mai@kamereo.vn'],
@@ -94,7 +94,7 @@ const CONFIG = {
         },
         { 
           id: 'ka_hotel_hcm', 
-          name: 'KA Hotel Convention khu vực Miền Nam', 
+          name: 'KA Hotel-Convention Miền Nam', 
           icon: '🏨', 
           description: '',
           emails: [ 'ducphong.nguyen@kamereo.vn','camlinh.nguyen@kamereo.vn'],
@@ -106,7 +106,7 @@ const CONFIG = {
   },
 
   // Danh sách admin có quyền truy cập mọi team - Giữ nguyên
-  ADMINS: ['viet.truong@kamereo.vn', 'dat.pham@kamereo.vn', 'khanh.le@kamereo.vn','thanhbinh.le@kamereo.vn'],
+  ADMINS: ['viet.truong@kamereo.vn','kien.le@kamereo.vn','dat.pham@kamereo.vn', 'khanh.le@kamereo.vn','thanhbinh.le@kamereo.vn','hung.tran@kamereo.vn'],
 
   // Thời gian phiên làm việc (giờ) - Giữ nguyên
   SESSION_DURATION: 8,

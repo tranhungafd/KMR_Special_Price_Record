@@ -725,7 +725,7 @@ const WebAppManager = {
             // Lấy mã team (lấy phần đầu của team ID, chuyển thành chữ hoa)
             const teamParts = this.data.teamInfo.id.split('_');
             if (teamParts.length > 1) {
-                teamParts[0].toUpperCase() + "_" + teamParts[1].toUpperCase();
+                teamCode = teamParts[0].toUpperCase() + "_" + teamParts[1].toUpperCase();
             }
             
             // Lấy mã khu vực (MN: Miền Nam, MB: Miền Bắc)
@@ -736,7 +736,6 @@ const WebAppManager = {
             }
         }
         
-        // Số thứ tự - Tạm thời làm đơn giản bằng cách lấy timestamp
         // Trong triển khai thực tế, nên có một hệ thống đếm số lần submit
         const now = new Date();
         const sequenceNumber = Math.floor(Math.random() * 9000) + 1000; // Số ngẫu nhiên 4 chữ số

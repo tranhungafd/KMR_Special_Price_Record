@@ -738,7 +738,7 @@ const WebAppManager = {
         
         // Trong triển khai thực tế, nên có một hệ thống đếm số lần submit
         const now = new Date();
-        const sequenceNumber = Math.floor(Math.random() * 9000) + 1000; // Số ngẫu nhiên 4 chữ số
+        const sequenceNumber = Math.floor(Math.random() * 900000) + 100000; // Số ngẫu nhiên 4 chữ số
         
         // Tạo request no
         return `#${teamCode}-${regionCode}-${sequenceNumber}`;

@@ -11,7 +11,7 @@ const CONFIG = {
           name: 'SME Horeca Miền Bắc', 
           icon: '👥', 
           description: '', 
-          emails: ['tam.le@kamereo.vn','nguyet.tran@kamereo.vn', 'thao.nguyen@kamereo.vn'], 
+          emails: ['nguyet.tran@kamereo.vn', 'thao.nguyen@kamereo.vn'], 
           sheet_id: '1Yib-LG1VBlXruGJcZgEmjE3Qf9Ct37wZKeefTfbtKMk',
           sheet_name: 'Sheet1'
         },
@@ -20,7 +20,7 @@ const CONFIG = {
           name: 'KA MT Miền Bắc', 
           icon: '🛒', 
           description: '',
-          emails: ['tam.le@kamereo.vn','tu.hoang@kamereo.vn'],
+          emails: ['tu.hoang@kamereo.vn'],
           sheet_id: '1YaI4aeh8mJ5i1g7fM2JJUSezVDISXAYFbQPH5NEbSUo',
           sheet_name: 'Sheet1'
         },
@@ -29,7 +29,7 @@ const CONFIG = {
           name: 'KA FC Miền Bắc', 
           icon: '🏢', 
           description: '',
-          emails: ['tam.le@kamereo.vn','hung.tran@kamereo.vn', 'kien.le@kamereo.vn','trang.doan@kamereo.vn', 'kien.le@kamereo.vn'],
+          emails: ['hung.tran@kamereo.vn', 'kien.le@kamereo.vn','trang.doan@kamereo.vn', 'kien.le@kamereo.vn'],
           sheet_id: '1nRYjW0X5NWB5F-XmvMJsmQ-8mgr0UU8gm4ZGUYb5nSU',
           sheet_name: 'Sheet1'
         },
@@ -38,7 +38,7 @@ const CONFIG = {
           name: 'KA School-Factory Miền Bắc', 
           icon: '🏫', 
           description: '',
-          emails: ['tam.le@kamereo.vn','van.nguyen@kamereo.vn'],
+          emails: ['van.nguyen@kamereo.vn'],
           sheet_id: '1SvBqFeDML8vCknUf19Pggy8tsc60nEVkhhRZz2gbmP4',
           sheet_name: 'Sheet1'
         },
@@ -47,7 +47,7 @@ const CONFIG = {
           name: 'KA Hotel-Convention Miền Bắc', 
           icon: '🏨', 
           description: '',
-          emails: ['tam.le@kamereo.vn','tuyen.nguyen@kamereo.vn'],
+          emails: ['tuyen.nguyen@kamereo.vn'],
           sheet_id: '1GI3U3TTvxds0IQBBj-TFhA3YuEevXRYPUQ1XClxN1rw',
           sheet_name: 'Sheet1'
         }
@@ -106,7 +106,7 @@ const CONFIG = {
   },
 
   // Danh sách admin có quyền truy cập mọi team - Giữ nguyên
-  ADMINS: ['viet.truong@kamereo.vn','kien.le@kamereo.vn','dat.pham@kamereo.vn', 'khanh.le@kamereo.vn','thanhbinh.le@kamereo.vn','hung.tran@kamereo.vn'],
+  ADMINS: ['viet.truong@kamereo.vn','kien.le@kamereo.vn','dat.pham@kamereo.vn', 'khanh.le@kamereo.vn','thanhbinh.le@kamereo.vn','hung.tran@kamereo.vn','tam.le@kamereo.vn'],
 
   // Thời gian phiên làm việc (giờ) - Giữ nguyên
   SESSION_DURATION: 8,

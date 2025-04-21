@@ -55,7 +55,7 @@ const API = {
     });
   },
 
-  // Kiểm tra quyền truy cập của email vào team
+  // Kiểm tra quyền truy cập của email vào team - ĐÃ SỬA
   checkTeamAccess: function(teamId, email) {
     return new Promise((resolve, reject) => {
       // Nếu là admin, luôn cho phép truy cập
@@ -69,20 +69,25 @@ const API = {
       
       // Tìm team và kiểm tra quyền
       let foundTeam = null;
-      let emailTeam = null;
+      let userTeams = []; // Sửa: Thay đổi từ emailTeam thành mảng userTeams
       
       for (const regionId in CONFIG.REGIONS) {
         const region = CONFIG.REGIONS[regionId];
         
         for (const team of region.teams) {
+          // Loại bỏ email trùng lặp trong cùng team
+          if (team.emails) {
+            team.emails = [...new Set(team.emails)];
+          }
+          
           // Ghi nhận team đang kiểm tra
           if (team.id === teamId) {
             foundTeam = team;
           }
           
           // Kiểm tra xem email thuộc team nào
-          if (team.emails.includes(email)) {
-            emailTeam = team;
+          if (team.emails && team.emails.includes(email)) {
+            userTeams.push(team); // Sửa: Thêm team vào mảng thay vì ghi đè
           }
         }
       }
@@ -90,23 +95,29 @@ const API = {
       // Xử lý kết quả
       if (!foundTeam) {
         reject(new Error('Không tìm thấy thông tin team'));
-      } else if (!emailTeam) {
+      } else if (userTeams.length === 0) {
         resolve({
           success: false,
           message: 'Bạn không thuộc team Sales nên không có quyền truy cập. Vui lòng liên hệ Admin.'
         });
-      } else if (emailTeam.id === teamId) {
-        // Email thuộc đúng team yêu cầu
-        resolve({
-          success: true,
-          url: `webapp.html?team=${teamId}&email=${encodeURIComponent(email)}`
-        });
       } else {
-        // Email thuộc team khác
-        resolve({
-          success: false,
-          message: `Bạn không thuộc ${foundTeam.name}. Bạn chỉ có quyền truy cập vào ${emailTeam.name}.`
-        });
+        // Sửa: Kiểm tra xem team được yêu cầu có nằm trong danh sách team mà user có quyền không
+        const hasTeamAccess = userTeams.some(team => team.id === teamId);
+        
+        if (hasTeamAccess) {
+          // Email thuộc đúng team yêu cầu
+          resolve({
+            success: true,
+            url: `webapp.html?team=${teamId}&email=${encodeURIComponent(email)}`
+          });
+        } else {
+          // Email thuộc team khác
+          const teamNames = userTeams.map(t => t.name).join(', ');
+          resolve({
+            success: false,
+            message: `Bạn không thuộc ${foundTeam.name}. Bạn chỉ có quyền truy cập vào: ${teamNames}.`
+          });
+        }
       }
     });
   },
@@ -144,7 +155,7 @@ const API = {
     });
   },
 
-  // Lấy tất cả các team mà user có quyền truy cập
+  // Lấy tất cả các team mà user có quyền truy cập - Đã Sửa
   getUserAccessibleTeams: function(email) {
     return new Promise((resolve, reject) => {
       // Kiểm tra xem email có hợp lệ không
@@ -161,6 +172,11 @@ const API = {
         const region = CONFIG.REGIONS[regionId];
         
         for (const team of region.teams) {
+          // Loại bỏ email trùng lặp trong cùng team
+          if (team.emails) {
+            team.emails = [...new Set(team.emails)];
+          }
+          
           // Nếu là admin hoặc email có trong danh sách emails của team
           if (isAdmin || (team.emails && team.emails.includes(email))) {
             accessibleTeams.push({

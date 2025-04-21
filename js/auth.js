@@ -115,6 +115,9 @@ const AuthManager = {
     setupGoogleSignIn: function() {
         try {
             console.log('Đang thiết lập Google Sign-In...');
+            
+            // Sửa lỗi redirect_uri_mismatch bằng cách không sử dụng popup mode
+            // và không chỉ định redirect_uri, để sử dụng URL hiện tại làm redirect_uri
             google.accounts.id.initialize({
                 client_id: this.googleConfig.clientId,
                 callback: this.handleCredentialResponse.bind(this),
@@ -122,7 +125,7 @@ const AuthManager = {
                 cancel_on_tap_outside: true,
                 prompt_parent_id: 'g_id_onload',
                 hosted_domain: this.googleConfig.hostedDomain,
-                ux_mode: 'popup',
+                // Đã xóa ux_mode: 'popup' để tránh lỗi redirect_uri_mismatch
                 context: 'signin'
             });
             
@@ -159,8 +162,11 @@ const AuthManager = {
         console.log('Nhận được phản hồi từ Google');
         
         // Hiển thị đang xác thực
-        document.getElementById('loading-message').style.display = 'block';
-        document.getElementById('error-message').style.display = 'none';
+        const loadingMsg = document.getElementById('loading-message');
+        const errorMsg = document.getElementById('error-message');
+        
+        if (loadingMsg) loadingMsg.style.display = 'block';
+        if (errorMsg) errorMsg.style.display = 'none';
         
         try {
             // Giải mã JWT token để lấy thông tin người dùng
@@ -215,7 +221,7 @@ const AuthManager = {
         }
     },
     
-    // Xác thực quyền truy cập
+    // Xác thực quyền truy cập - ĐÃ SỬA
     verifyAccess: function(email) {
         console.log('Đang xác thực quyền truy cập cho email:', email, 'và team:', this.teamId);
         
@@ -227,22 +233,27 @@ const AuthManager = {
             // Tìm team và kiểm tra quyền truy cập
             let hasAccess = false;
             let foundTeam = null;
-            let emailTeam = null;
+            let userTeams = []; // Sửa: Thay đổi từ emailTeam thành mảng userTeams
             
             // Tìm qua tất cả các khu vực và team
             for (const regionId in CONFIG.REGIONS) {
                 const region = CONFIG.REGIONS[regionId];
                 
                 for (const team of region.teams) {
+                    // Loại bỏ email trùng lặp trong cùng team
+                    if (team.emails) {
+                        team.emails = [...new Set(team.emails)];
+                    }
+                    
                     // Ghi nhận team đang kiểm tra
                     if (team.id === this.teamId) {
                         foundTeam = team;
-                        console.log('Đã tìm thấy team:', team.name);
+                        console.log('Đã tìm thấy team yêu cầu:', team.name);
                     }
                     
                     // Kiểm tra xem email thuộc team nào
                     if (team.emails && team.emails.includes(email)) {
-                        emailTeam = team;
+                        userTeams.push(team); // Sửa: Thêm team vào mảng thay vì ghi đè
                         console.log('Email thuộc team:', team.name);
                     }
                 }
@@ -256,16 +267,23 @@ const AuthManager = {
             } else if (!foundTeam) {
                 console.error('Không tìm thấy thông tin team:', this.teamId);
                 this.showError('Không tìm thấy thông tin team');
-            } else if (!emailTeam) {
+            } else if (userTeams.length === 0) {
                 console.error('Email không thuộc bất kỳ team nào');
                 this.showError('Bạn không thuộc team Sales nên không có quyền truy cập. Vui lòng liên hệ Admin.');
-            } else if (emailTeam.id === this.teamId) {
-                console.log('Email thuộc đúng team yêu cầu, cho phép truy cập');
-                hasAccess = true;
-                this.successfulAuth(email);
             } else {
-                console.error('Email thuộc team khác:', emailTeam.name);
-                this.showError(`Bạn không thuộc ${foundTeam.name}. Bạn chỉ có quyền truy cập vào ${emailTeam.name}.`);
+                // Sửa: Kiểm tra xem team được yêu cầu có nằm trong danh sách team mà user có quyền không
+                const hasTeamAccess = userTeams.some(team => team.id === this.teamId);
+                
+                if (hasTeamAccess) {
+                    console.log('Email thuộc đúng team yêu cầu, cho phép truy cập');
+                    hasAccess = true;
+                    this.successfulAuth(email);
+                } else {
+                    console.error('Email không thuộc team này, chỉ thuộc các team:', userTeams.map(t => t.name).join(', '));
+                    // Sửa: Hiển thị thông báo lỗi với tất cả các team mà user có quyền
+                    const teamNames = userTeams.map(t => t.name).join(', ');
+                    this.showError(`Bạn không thuộc ${foundTeam.name}. Bạn chỉ có quyền truy cập vào: ${teamNames}.`);
+                }
             }
         } catch (error) {
             console.error('Lỗi khi kiểm tra quyền truy cập:', error);
@@ -302,6 +320,11 @@ const AuthManager = {
             const region = CONFIG.REGIONS[regionId];
             
             for (const team of region.teams) {
+                // Loại bỏ email trùng lặp trong cùng team
+                if (team.emails) {
+                    team.emails = [...new Set(team.emails)];
+                }
+                
                 if (isAdmin || (team.emails && team.emails.includes(email))) {
                     userTeams.push({
                         id: team.id,

@@ -70,7 +70,7 @@ const CONFIG = {
           name: 'KA MT Miền Nam', 
           icon: '🛒', 
           description: '',
-          emails: ['ducphong.nguyen@kamereo.vn'],
+          emails: ['thanhphong.pham@kamereo.vn','mythanh.tran@kamereo.vn'],
           sheet_id: '1-6pZBacYy_OPhnKE7hMEnHxdXqcXLIkn_H7jdEDZIz0',
           sheet_name: 'Sheet1'
         },
@@ -97,7 +97,7 @@ const CONFIG = {
           name: 'KA Hotel-Convention Miền Nam', 
           icon: '🏨', 
           description: '',
-          emails: [ 'ducphong.nguyen@kamereo.vn','camlinh.nguyen@kamereo.vn'],
+          emails: [ 'haiphuong.le@kamereo.vn','camlinh.nguyen@kamereo.vn'],
           sheet_id: '1uQBVYigXFHoIFcGYr2XDcGDT273WV-SxiTSmcUpV5Jk',
           sheet_name: 'Sheet1'
         }

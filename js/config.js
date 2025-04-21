@@ -70,7 +70,7 @@ const CONFIG = {
           name: 'KA MT Miền Nam', 
           icon: '🛒', 
           description: '',
-          emails: ['kien.le@kamereo.vn','thanhphong.pham@kamereo.vn','mythanh.tran@kamereo.vn'],
+          emails: ['thanhphong.pham@kamereo.vn','mythanh.tran@kamereo.vn','mai.vu@kamereo.vn'],
           sheet_id: '1-6pZBacYy_OPhnKE7hMEnHxdXqcXLIkn_H7jdEDZIz0',
           sheet_name: 'Sheet1'
         },
@@ -79,7 +79,7 @@ const CONFIG = {
           name: 'KA FC Miền Nam', 
           icon: '🏢', 
           description: '',
-          emails: ['kien.le@kamereo.vn','ducphong.nguyen@kamereo.vn','san.le@kamereo.vn','trongnhan.nguyen@kamereo.vn'],
+          emails: ['ducphong.nguyen@kamereo.vn','san.le@kamereo.vn','trongnhan.nguyen@kamereo.vn','han.vu@kamereo.vn'],
           sheet_id: '1UIxh6YeaRgU85pa21nhpe15bUBtTywn5LoK8tafbSJ4',
           sheet_name: 'Sheet1'
         },
@@ -88,7 +88,7 @@ const CONFIG = {
           name: 'KA School-Factory Miền Nam', 
           icon: '🏫', 
           description: '',
-          emails: [ 'kien.le@kamereo.vn','ducphong.nguyen@kamereo.vn','man.mai@kamereo.vn'],
+          emails: [ 'ngocanh.tran@kamereo.vn','man.mai@kamereo.vn'],
           sheet_id: '1WTPREnRKUFKXO8sxy509jkch0SwmLwJc7UgXCUGvhTA',
           sheet_name: 'Sheet1'
         },
@@ -97,7 +97,7 @@ const CONFIG = {
           name: 'KA Hotel-Convention Miền Nam', 
           icon: '🏨', 
           description: '',
-          emails: [ 'kien.le@kamereo.vn','haiphuong.le@kamereo.vn','camlinh.nguyen@kamereo.vn'],
+          emails: [ 'haiphuong.le@kamereo.vn','camlinh.nguyen@kamereo.vn'],
           sheet_id: '1uQBVYigXFHoIFcGYr2XDcGDT273WV-SxiTSmcUpV5Jk',
           sheet_name: 'Sheet1'
         }
@@ -106,7 +106,7 @@ const CONFIG = {
   },
 
   // Danh sách admin có quyền truy cập mọi team - Giữ nguyên
-  ADMINS: ['viet.truong@kamereo.vn','dat.pham@kamereo.vn', 'khanh.le@kamereo.vn','thanhbinh.le@kamereo.vn','hung.tran@kamereo.vn','tam.le@kamereo.vn'],
+  ADMINS: ['viet.truong@kamereo.vn','dat.pham@kamereo.vn', 'khanh.le@kamereo.vn','thanhbinh.le@kamereo.vn','hung.tran@kamereo.vn','kien.le@kamereo.vn'],
 
   // Thời gian phiên làm việc (giờ) - Giữ nguyên
   SESSION_DURATION: 8,

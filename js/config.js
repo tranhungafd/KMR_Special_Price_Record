@@ -11,7 +11,7 @@ const CONFIG = {
           name: 'SME Horeca Miền Bắc', 
           icon: '👥', 
           description: '', 
-          emails: ['tam.le@kamereo.vn','nguyet.tran@kamereo.vn', 'thao.nguyen@kamereo.vn'], 
+          emails: ['tam.le@kamereo.vn','thao.nguyen@kamereo.vn'], 
           sheet_id: '1Yib-LG1VBlXruGJcZgEmjE3Qf9Ct37wZKeefTfbtKMk',
           sheet_name: 'Sheet1'
         },
@@ -29,7 +29,7 @@ const CONFIG = {
           name: 'KA FC Miền Bắc', 
           icon: '🏢', 
           description: '',
-          emails: ['tam.le@kamereo.vn','hung.tran@kamereo.vn', 'kien.le@kamereo.vn','trang.doan@kamereo.vn'],
+          emails: ['tam.le@kamereo.vn','tuuyen.nguyen@kamereo.vn', 'van.nguyen@kamereo.vn','trang.doan@kamereo.vn'],
           sheet_id: '1nRYjW0X5NWB5F-XmvMJsmQ-8mgr0UU8gm4ZGUYb5nSU',
           sheet_name: 'Sheet1'
         },
@@ -38,7 +38,7 @@ const CONFIG = {
           name: 'KA School-Factory Miền Bắc', 
           icon: '🏫', 
           description: '',
-          emails: ['tam.le@kamereo.vn','van.nguyen@kamereo.vn'],
+          emails: ['tam.le@kamereo.vn','van.nguyen@kamereo.vn','trang.doan@kamereo.vn','tuuyen.nguyen@kamereo.vn'],
           sheet_id: '1SvBqFeDML8vCknUf19Pggy8tsc60nEVkhhRZz2gbmP4',
           sheet_name: 'Sheet1'
         },
@@ -70,7 +70,7 @@ const CONFIG = {
           name: 'KA MT Miền Nam', 
           icon: '🛒', 
           description: '',
-          emails: ['thanhphong.pham@kamereo.vn','mythanh.tran@kamereo.vn','mai.vu@kamereo.vn'],
+          emails: ['thanhphong.pham@kamereo.vn','mythanh.tran@kamereo.vn','mai.vu@kamereo.vn','han.vu@kamereo.vn'],
           sheet_id: '1-6pZBacYy_OPhnKE7hMEnHxdXqcXLIkn_H7jdEDZIz0',
           sheet_name: 'Sheet1'
         },
